@@ -1,0 +1,37 @@
+{
+  "languages": {
+    "TypeScript": {
+      "language_servers": ["typescript-language-server", "oxlint", "!vtsls"],
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "./node_modules/.bin/oxfmt",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
+        },
+      },
+    },
+    "TSX": {
+      "language_servers": ["typescript-language-server", "oxlint", "!vtsls"],
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "./node_modules/.bin/oxfmt",
+          "arguments": ["--stdin-filepath", "{buffer_path}"],
+        },
+      },
+    },
+  },
+
+  "lsp": {
+    "oxlint": {
+      "initialization_options": {
+        "settings": {
+          "run": "onType",
+          "fixKind": "safe_fix",
+          "typeAware": true,
+          "tsconfig": "tsconfig.json",
+        },
+      },
+    },
+  },
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "sortPackageJson": true,
+  "semi": false,
+  "sortImports": true,
+  "sortTailwindcss": true,
+  "ignorePatterns": ["dist/**", "node_modules/**", "pnpm-lock.yaml"]
+}
