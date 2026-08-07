@@ -1,0 +1,70 @@
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import { hash } from 'bcryptjs'
+
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { User } from './entities/user.entity'
+import { DeleteUserRepository } from './repositories/delete.repository'
+import { FindAllUsersRepository } from './repositories/find-all.repository'
+import { FindUserByIdRepository } from './repositories/find-by-id.repository'
+import { FindExistingUserRepository } from './repositories/find-existing-user.repository'
+import { SaveUserRepository } from './repositories/save.repository'
+import { UpdateUserRepository } from './repositories/update.repository'
+
+@Injectable()
+export class UsersService {
+  constructor(
+    private readonly findUserById: FindUserByIdRepository,
+    private readonly findExistingUser: FindExistingUserRepository,
+    private readonly findAllUsers: FindAllUsersRepository,
+    private readonly saveUser: SaveUserRepository,
+    private readonly updateUser: UpdateUserRepository,
+    private readonly deleteUser: DeleteUserRepository
+  ) {}
+
+  async create(createUserDto: CreateUserDto) {
+    const existingUser = await this.findExistingUser.execute({ username: createUserDto.username })
+    if (existingUser) throw new ConflictException('The user already exists')
+
+    const user = new User()
+    user.username = createUserDto.username
+    user.password = await hash(createUserDto.password, 10)
+    user.role = createUserDto.role
+
+    return await this.saveUser.execute(user)
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.findAllUsers.execute()
+  }
+
+  async findOne(id: string) {
+    const user = await this.findUserById.execute(id)
+    if (!user) throw new NotFoundException(`User with id '${id}' not found`)
+
+    return user
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.password) {
+      updateUserDto.password = await hash(updateUserDto.password, 10)
+    }
+
+    const existingUser = await this.updateUser.execute(id, updateUserDto)
+    if (!existingUser) throw new NotFoundException(`User with id '${id}' not found`)
+
+    if (updateUserDto.username) {
+      const conflict = await this.findExistingUser.execute({ username: updateUserDto.username })
+      if (conflict) throw new ConflictException('The user already exists')
+    }
+
+    return await this.saveUser.execute(existingUser)
+  }
+
+  async remove(id: string) {
+    const result = await this.deleteUser.execute(id)
+    if (result.affected === 0) throw new NotFoundException(`User with id '${id}' not found`)
+
+    return result
+  }
+}
