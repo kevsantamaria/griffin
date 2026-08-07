@@ -1,3 +1,4 @@
 packages:
   - "server"
-  - "client"
+allowBuilds:
+  unrs-resolver: true
