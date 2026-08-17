@@ -14,4 +14,8 @@ export class DeleteSiteTagRepository {
   async execute(siteId: number, tagId: number) {
     return await this.siteTagRepository.delete({ siteId, tagId })
   }
+
+  async executeBySiteId(siteId: number) {
+    return await this.siteTagRepository.delete({ siteId })
+  }
 }

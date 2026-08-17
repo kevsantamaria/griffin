@@ -12,6 +12,6 @@ export class FindAllSitesRepository {
   ) {}
 
   async execute() {
-    return await this.siteRepository.find()
+    return await this.siteRepository.find({ relations: { siteTags: { tag: true } } })
   }
 }

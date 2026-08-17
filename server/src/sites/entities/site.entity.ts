@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 
 import { Technology } from '../../technologies/entities/technology.entity'
+import { SiteTag } from './site-tag.entity'
 
 @Entity('sites')
 export class Site {
@@ -32,8 +34,11 @@ export class Site {
   @ManyToOne(() => Technology)
   technology: Technology
 
-  @Column({ type: 'jsonb', nullable: true })
-  credentials: Record<string, string>[]
+  @Column({ type: 'jsonb' })
+  credentials: Record<string, Record<string, string>>
+
+  @OneToMany(() => SiteTag, (siteTag) => siteTag.site)
+  siteTags: SiteTag[]
 
   @CreateDateColumn()
   createdAt: Date

@@ -1,18 +1,23 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { TagsModule } from 'src/tags/tags.module'
+import { TechnologiesModule } from 'src/technologies/technologies.module'
 
 import { Site } from './entities/site.entity'
-import { SitesController } from './sites.controller'
-import { SitesService } from './sites.service'
+import { SiteTag } from './entities/site-tag.entity'
+import { DeleteSiteTagRepository } from './repositories/delete-site-tag.repository'
+import { DeleteSiteRepository } from './repositories/delete.repository'
 import { FindAllSitesRepository } from './repositories/find-all.repository'
 import { FindSiteByIdRepository } from './repositories/find-by-id.repository'
 import { FindExistingSiteRepository } from './repositories/find-existing.repository'
+import { PreloadSiteRepository } from './repositories/preload.repository'
+import { SaveSiteTagRepository } from './repositories/save-site-tag.repository'
 import { SaveSiteRepository } from './repositories/save.repository'
-import { UpdateSiteRepository } from './repositories/update.repository'
-import { DeleteSiteRepository } from './repositories/delete.repository'
+import { SitesController } from './sites.controller'
+import { SitesService } from './sites.service'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Site])],
+  imports: [TypeOrmModule.forFeature([Site, SiteTag]), TechnologiesModule, TagsModule],
   controllers: [SitesController],
   providers: [
     SitesService,
@@ -20,8 +25,10 @@ import { DeleteSiteRepository } from './repositories/delete.repository'
     FindSiteByIdRepository,
     FindExistingSiteRepository,
     SaveSiteRepository,
-    UpdateSiteRepository,
+    PreloadSiteRepository,
     DeleteSiteRepository,
+    SaveSiteTagRepository,
+    DeleteSiteTagRepository,
   ],
 })
 export class SitesModule {}

@@ -2,14 +2,15 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { Tag } from './entities/tag.entity'
-import { TagsController } from './tags.controller'
-import { TagsService } from './tags.service'
+import { DeleteTagRepository } from './repositories/delete.repository'
 import { FindAllTagsRepository } from './repositories/find-all.repository'
 import { FindTagByIdRepository } from './repositories/find-by-id.repository'
+import { FindTagByNameRepository } from './repositories/find-by-name.repository'
 import { FindExistingTagRepository } from './repositories/find-existing.repository'
+import { PreloadTagRepository } from './repositories/preload.repository'
 import { SaveTagRepository } from './repositories/save.repository'
-import { UpdateTagRepository } from './repositories/update.repository'
-import { DeleteTagRepository } from './repositories/delete.repository'
+import { TagsController } from './tags.controller'
+import { TagsService } from './tags.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tag])],
@@ -18,10 +19,12 @@ import { DeleteTagRepository } from './repositories/delete.repository'
     TagsService,
     FindAllTagsRepository,
     FindTagByIdRepository,
+    FindTagByNameRepository,
     FindExistingTagRepository,
     SaveTagRepository,
-    UpdateTagRepository,
+    PreloadTagRepository,
     DeleteTagRepository,
   ],
+  exports: [TagsService],
 })
 export class TagsModule {}

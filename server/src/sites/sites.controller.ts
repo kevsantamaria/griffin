@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common'
 
 import { CreateSiteDto } from './dto/create-site.dto'
 import { UpdateSiteDto } from './dto/update-site.dto'
@@ -9,27 +9,27 @@ export class SitesController {
   constructor(private readonly sitesService: SitesService) {}
 
   @Post()
-  create(@Body() createSiteDto: CreateSiteDto) {
+  async create(@Body(ValidationPipe) createSiteDto: CreateSiteDto) {
     return this.sitesService.create(createSiteDto)
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.sitesService.findAll()
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.sitesService.findOne(+id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSiteDto: UpdateSiteDto) {
+  async update(@Param('id') id: string, @Body(ValidationPipe) updateSiteDto: UpdateSiteDto) {
     return this.sitesService.update(+id, updateSiteDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sitesService.remove(+id)
+  async remove(@Param('id') id: string) {
+    return this.sitesService.delete(+id)
   }
 }

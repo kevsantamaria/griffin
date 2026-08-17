@@ -6,7 +6,7 @@ import { UpdateTechnologyDto } from '../dto/update-technology.dto'
 import { Technology } from '../entities/technology.entity'
 
 @Injectable()
-export class UpdateTechnologyRepository {
+export class PreloadTechnologyRepository {
   constructor(
     @InjectRepository(Technology)
     private readonly technologyRepository: Repository<Technology>

@@ -14,4 +14,8 @@ export class SaveSiteTagRepository {
   async execute(siteTag: SiteTag) {
     return this.siteTagRepository.save(siteTag)
   }
+
+  async executeMany(siteTags: SiteTag[]) {
+    return this.siteTagRepository.save(siteTags)
+  }
 }

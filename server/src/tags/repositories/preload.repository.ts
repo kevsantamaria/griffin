@@ -6,7 +6,7 @@ import { UpdateTagDto } from '../dto/update-tag.dto'
 import { Tag } from '../entities/tag.entity'
 
 @Injectable()
-export class UpdateTagRepository {
+export class PreloadTagRepository {
   constructor(
     @InjectRepository(Tag)
     private readonly tagRepository: Repository<Tag>
