@@ -2,8 +2,11 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { SiteTag } from 'src/sites/entities/site-tag.entity'
 import { DeleteSiteTagRepository } from 'src/sites/repositories/delete-site-tag.repository'
 import { SaveSiteTagRepository } from 'src/sites/repositories/save-site-tag.repository'
+import { Tag } from 'src/tags/entities/tag.entity'
 import { TagsService } from 'src/tags/tags.service'
+import { Technology } from 'src/technologies/entities/technology.entity'
 import { TechnologiesService } from 'src/technologies/technologies.service'
+import { DeleteResult } from 'typeorm'
 
 import { CreateSiteDto } from './dto/create-site.dto'
 import { UpdateSiteDto } from './dto/update-site.dto'
@@ -15,6 +18,20 @@ import { FindExistingSiteRepository } from './repositories/find-existing.reposit
 import { PreloadSiteRepository } from './repositories/preload.repository'
 import { SaveSiteRepository } from './repositories/save.repository'
 
+type SiteRes = {
+  tags: string[]
+  id: number
+  name: string
+  url: string
+  isInternal: boolean
+  notes: string
+  technologyId: number
+  technology: Technology
+  credentials: Record<string, Record<string, string>>
+  createdAt: Date
+  updatedAt: Date
+}
+
 @Injectable()
 export class SitesService {
   constructor(
@@ -24,18 +41,32 @@ export class SitesService {
     private readonly saveSite: SaveSiteRepository,
     private readonly preloadSite: PreloadSiteRepository,
     private readonly removeSite: DeleteSiteRepository,
-    private readonly technologiesService: TechnologiesService,
-    private readonly tagsService: TagsService,
     private readonly saveSiteTag: SaveSiteTagRepository,
-    private readonly deleteSiteTag: DeleteSiteTagRepository
+    private readonly deleteSiteTag: DeleteSiteTagRepository,
+    private readonly technologiesService: TechnologiesService,
+    private readonly tagsService: TagsService
   ) {}
 
-  private toResponse(site: Site) {
+  private toResponse(site: Site): SiteRes {
     const { siteTags, ...rest } = site
     return {
       ...rest,
       tags: siteTags?.map((siteTag) => siteTag.tag.name) ?? [],
     }
+  }
+
+  private async createSiteTags(tags: Tag[], siteId: number): Promise<void> {
+    const siteTags = tags.map((tag) => {
+      const siteTag = new SiteTag()
+
+      siteTag.siteId = siteId
+      siteTag.tagId = tag.id
+
+      return siteTag
+    })
+
+    await this.deleteSiteTag.executeBySiteId(siteId)
+    await this.saveSiteTag.executeMany(siteTags)
   }
 
   async create(createSiteDto: CreateSiteDto): Promise<Site> {
@@ -59,70 +90,55 @@ export class SitesService {
     const savedSite = await this.saveSite.execute(site)
 
     if (createSiteDto.tagNames?.length) {
-      const uniqueTagNames = [...new Set(createSiteDto.tagNames)]
-      const siteTags: SiteTag[] = await Promise.all(
-        uniqueTagNames.map(async (tagName) => {
-          const tag = await this.tagsService.findOrCreate(tagName)
-
-          const siteTag = new SiteTag()
-          siteTag.siteId = savedSite.id
-          siteTag.tagId = tag.id
-          return siteTag
-        })
-      )
-      await this.saveSiteTag.executeMany(siteTags)
+      const tags = await this.tagsService.findOrCreate(createSiteDto.tagNames)
+      await this.createSiteTags(tags, savedSite.id)
     }
 
     return savedSite
   }
 
-  async findAll() {
+  async findAll(): Promise<SiteRes[]> {
     const sites = await this.findAllSites.execute()
     return sites.map((site) => this.toResponse(site))
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<SiteRes> {
     const site = await this.findSiteById.execute(id)
     if (!site) throw new NotFoundException('site not found')
 
     return this.toResponse(site)
   }
 
-  async update(id: number, updateSiteDto: UpdateSiteDto) {
-    const { tagNames, ...siteFields } = updateSiteDto
-    const existingSite = await this.preloadSite.execute(id, siteFields)
+  async update(id: number, updateSiteDto: UpdateSiteDto): Promise<Site> {
+    const existingSite = await this.preloadSite.execute(id, updateSiteDto)
     if (!existingSite) throw new NotFoundException('site not found')
 
-    if (siteFields.name) {
+    if (updateSiteDto.name) {
       const conflict = await this.findExistingSite.execute({
-        name: siteFields.name,
+        name: updateSiteDto.name,
         excludeId: id,
       })
       if (conflict) throw new ConflictException('the site already exists')
     }
 
-    const savedSite = await this.saveSite.execute(existingSite)
-
-    if (tagNames) {
-      const uniqueTagNames = [...new Set(tagNames)]
-      const siteTags: SiteTag[] = []
-      for (const tagName of uniqueTagNames) {
-        const tag = await this.tagsService.findOrCreate(tagName)
-
-        const siteTag = new SiteTag()
-        siteTag.siteId = savedSite.id
-        siteTag.tagId = tag.id
-        siteTags.push(siteTag)
-      }
-
-      await this.deleteSiteTag.executeBySiteId(savedSite.id)
-      await this.saveSiteTag.executeMany(siteTags)
+    if (updateSiteDto.technologyName) {
+      const existingTechnology = await this.technologiesService.findOrCreate(
+        updateSiteDto.technologyName
+      )
+      existingSite.technology = existingTechnology
     }
 
-    return this.toResponse(savedSite)
+    const savedSite = await this.saveSite.execute(existingSite)
+
+    if (updateSiteDto.tagNames?.length) {
+      const tags = await this.tagsService.findOrCreate(updateSiteDto.tagNames)
+      await this.createSiteTags(tags, savedSite.id)
+    }
+
+    return savedSite
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<DeleteResult> {
     const result = await this.removeSite.execute(id)
     if (result.affected === 0) throw new NotFoundException('site not found')
 
