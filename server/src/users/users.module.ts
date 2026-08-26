@@ -6,8 +6,8 @@ import { DeleteUserRepository } from './repositories/delete.repository'
 import { FindAllUsersRepository } from './repositories/find-all.repository'
 import { FindUserByIdRepository } from './repositories/find-by-id.repository'
 import { FindExistingUserRepository } from './repositories/find-existing-user.repository'
+import { PreloadUserRepository } from './repositories/preload.repository'
 import { SaveUserRepository } from './repositories/save.repository'
-import { UpdateUserRepository } from './repositories/update.repository'
 import { UsersController } from './users.controller'
 import { UsersService } from './users.service'
 
@@ -20,7 +20,7 @@ import { UsersService } from './users.service'
     FindUserByIdRepository,
     SaveUserRepository,
     FindExistingUserRepository,
-    UpdateUserRepository,
+    PreloadUserRepository,
     DeleteUserRepository,
   ],
 })

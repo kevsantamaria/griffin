@@ -8,8 +8,8 @@ import { DeleteUserRepository } from './repositories/delete.repository'
 import { FindAllUsersRepository } from './repositories/find-all.repository'
 import { FindUserByIdRepository } from './repositories/find-by-id.repository'
 import { FindExistingUserRepository } from './repositories/find-existing-user.repository'
+import { PreloadUserRepository } from './repositories/preload.repository'
 import { SaveUserRepository } from './repositories/save.repository'
-import { UpdateUserRepository } from './repositories/update.repository'
 
 @Injectable()
 export class UsersService {
@@ -18,7 +18,7 @@ export class UsersService {
     private readonly findExistingUser: FindExistingUserRepository,
     private readonly findAllUsers: FindAllUsersRepository,
     private readonly saveUser: SaveUserRepository,
-    private readonly updateUser: UpdateUserRepository,
+    private readonly preloadUser: PreloadUserRepository,
     private readonly deleteUser: DeleteUserRepository
   ) {}
 
@@ -50,7 +50,7 @@ export class UsersService {
       updateUserDto.password = await hash(updateUserDto.password, 10)
     }
 
-    const existingUser = await this.updateUser.execute(id, updateUserDto)
+    const existingUser = await this.preloadUser.execute(id, updateUserDto)
     if (!existingUser) throw new NotFoundException(`User with id '${id}' not found`)
 
     if (updateUserDto.username) {

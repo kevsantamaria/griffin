@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
 import { DatabaseModule } from './database.module'
-import { SiteTagsModule } from './site-tags/site-tags.module'
 import { SitesModule } from './sites/sites.module'
 import { TagsModule } from './tags/tags.module'
 import { TechnologiesModule } from './technologies/technologies.module'
-import { TemplateTagsModule } from './template-tags/template-tags.module'
 import { TemplatesModule } from './templates/templates.module'
 import { UsersModule } from './users/users.module'
 
@@ -19,8 +17,6 @@ import { UsersModule } from './users/users.module'
     UsersModule,
     TechnologiesModule,
     TemplatesModule,
-    SiteTagsModule,
-    TemplateTagsModule,
   ],
 })
 export class AppModule {}
