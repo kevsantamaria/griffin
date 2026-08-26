@@ -1,7 +1,7 @@
 import { Entity, ManyToOne, PrimaryColumn } from 'typeorm'
 
 import { Tag } from '../../tags/entities/tag.entity'
-import { Template } from '../../templates/entities/template.entity'
+import { Template } from './template.entity'
 
 @Entity('template_tags')
 export class TemplateTag {
@@ -11,9 +11,9 @@ export class TemplateTag {
   @PrimaryColumn()
   tagId: number
 
-  @ManyToOne(() => Template)
+  @ManyToOne(() => Template, { onDelete: 'CASCADE' })
   template: Template
 
-  @ManyToOne(() => Tag)
+  @ManyToOne(() => Tag, { onDelete: 'CASCADE' })
   tag: Tag
 }

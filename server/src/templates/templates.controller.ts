@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  ParseIntPipe,
+} from '@nestjs/common'
 
 import { CreateTemplateDto } from './dto/create-template.dto'
 import { UpdateTemplateDto } from './dto/update-template.dto'
@@ -9,27 +19,30 @@ export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
   @Post()
-  create(@Body() createTemplateDto: CreateTemplateDto) {
+  async create(@Body(ValidationPipe) createTemplateDto: CreateTemplateDto) {
     return this.templatesService.create(createTemplateDto)
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.templatesService.findAll()
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.templatesService.findOne(+id)
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.templatesService.findOne(id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
-    return this.templatesService.update(+id, updateTemplateDto)
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateTemplateDto: UpdateTemplateDto
+  ) {
+    return this.templatesService.update(id, updateTemplateDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.templatesService.remove(+id)
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.templatesService.remove(id)
   }
 }

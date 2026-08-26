@@ -5,13 +5,17 @@ import { Repository } from 'typeorm'
 import { TemplateTag } from '../entities/template-tag.entity'
 
 @Injectable()
-export class FindExistingTemplateTagRepository {
+export class DeleteTemplateTagRepository {
   constructor(
     @InjectRepository(TemplateTag)
     private readonly templateTagRepository: Repository<TemplateTag>
   ) {}
 
-  async execute(filters: { templateId?: number; tagId?: number }) {
-    return await this.templateTagRepository.existsBy(filters)
+  async execute(templateId: number, tagId: number) {
+    return await this.templateTagRepository.delete({ templateId, tagId })
+  }
+
+  async executeByTemplateId(templateId: number) {
+    return await this.templateTagRepository.delete({ templateId })
   }
 }

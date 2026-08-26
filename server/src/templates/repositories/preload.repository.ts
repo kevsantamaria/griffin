@@ -6,7 +6,7 @@ import { UpdateTemplateDto } from '../dto/update-template.dto'
 import { Template } from '../entities/template.entity'
 
 @Injectable()
-export class UpdateTemplateRepository {
+export class PreloadTemplateRepository {
   constructor(
     @InjectRepository(Template)
     private readonly templateRepository: Repository<Template>

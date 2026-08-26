@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Not, Repository } from 'typeorm'
 
 import { Template } from '../entities/template.entity'
 
@@ -11,7 +11,10 @@ export class FindExistingTemplateRepository {
     private readonly templateRepository: Repository<Template>
   ) {}
 
-  async execute(filters: { id?: number }) {
-    return await this.templateRepository.existsBy(filters)
+  async execute(filters: { name: string; excludeId?: number }) {
+    const where: Record<string, unknown> = { name: filters.name }
+    if (filters.excludeId) where.id = Not(filters.excludeId)
+
+    return await this.templateRepository.existsBy(where)
   }
 }
