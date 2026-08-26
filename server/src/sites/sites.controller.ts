@@ -8,9 +8,11 @@ import {
   Delete,
   ValidationPipe,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common'
 
 import { CreateSiteDto } from './dto/create-site.dto'
+import { PaginationDto } from './dto/pagination.dto'
 import { UpdateSiteDto } from './dto/update-site.dto'
 import { SitesService } from './sites.service'
 
@@ -24,8 +26,8 @@ export class SitesController {
   }
 
   @Get()
-  async findAll() {
-    return this.sitesService.findAll()
+  async findAll(@Query() pagination: PaginationDto) {
+    return this.sitesService.findAll(pagination)
   }
 
   @Get(':id')

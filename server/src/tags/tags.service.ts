@@ -40,7 +40,8 @@ export class TagsService {
   }
 
   async findOrCreate(names: string[]): Promise<Tag[]> {
-    const tagNames = [...new Set(names)]
+    const normalizedNames = names.map((name) => name.toLowerCase().trim())
+    const tagNames = [...new Set(normalizedNames)]
 
     const existingTags = await Promise.all(
       tagNames.map(async (name) => {

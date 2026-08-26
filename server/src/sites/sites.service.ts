@@ -4,11 +4,11 @@ import { DeleteSiteTagRepository } from 'src/sites/repositories/delete-site-tag.
 import { SaveSiteTagRepository } from 'src/sites/repositories/save-site-tag.repository'
 import { Tag } from 'src/tags/entities/tag.entity'
 import { TagsService } from 'src/tags/tags.service'
-import { Technology } from 'src/technologies/entities/technology.entity'
 import { TechnologiesService } from 'src/technologies/technologies.service'
 import { DeleteResult } from 'typeorm'
 
 import { CreateSiteDto } from './dto/create-site.dto'
+import { PaginationDto } from './dto/pagination.dto'
 import { UpdateSiteDto } from './dto/update-site.dto'
 import { Site } from './entities/site.entity'
 import { DeleteSiteRepository } from './repositories/delete.repository'
@@ -25,8 +25,7 @@ type SiteRes = {
   url: string
   isInternal: boolean
   notes: string
-  technologyId: number
-  technology: Technology
+  technologyName: string
   credentials: Record<string, Record<string, string>>
   createdAt: Date
   updatedAt: Date
@@ -48,10 +47,29 @@ export class SitesService {
   ) {}
 
   private toResponse(site: Site): SiteRes {
-    const { siteTags, ...rest } = site
+    const {
+      id,
+      name,
+      url,
+      technology,
+      isInternal,
+      notes,
+      siteTags,
+      credentials,
+      createdAt,
+      updatedAt,
+    } = site
     return {
-      ...rest,
+      id,
+      name,
+      url,
+      technologyName: technology.name,
+      isInternal,
+      notes,
       tags: siteTags?.map((siteTag) => siteTag.tag.name) ?? [],
+      credentials,
+      createdAt,
+      updatedAt,
     }
   }
 
@@ -97,8 +115,8 @@ export class SitesService {
     return savedSite
   }
 
-  async findAll(): Promise<SiteRes[]> {
-    const sites = await this.findAllSites.execute()
+  async findAll(pagination: PaginationDto): Promise<SiteRes[]> {
+    const sites = await this.findAllSites.execute(pagination)
     return sites.map((site) => this.toResponse(site))
   }
 

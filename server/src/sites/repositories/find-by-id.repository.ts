@@ -14,7 +14,8 @@ export class FindSiteByIdRepository {
   async execute(id: number) {
     return await this.siteRepository.findOne({
       where: { id },
-      relations: { siteTags: { tag: true } },
+      relations: { siteTags: { tag: true }, technology: true },
+      select: { technology: { name: true } },
     })
   }
 }
