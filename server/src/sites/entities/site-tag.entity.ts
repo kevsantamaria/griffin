@@ -1,7 +1,7 @@
 import { Entity, ManyToOne, PrimaryColumn } from 'typeorm'
 
-import { Site } from './site.entity'
 import { Tag } from '../../tags/entities/tag.entity'
+import { Site } from './site.entity'
 
 @Entity('site_tags')
 export class SiteTag {

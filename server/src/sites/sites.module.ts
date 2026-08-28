@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { EncryptionModule } from 'src/encryption/encryption.module'
 import { TagsModule } from 'src/tags/tags.module'
 import { TechnologiesModule } from 'src/technologies/technologies.module'
 
-import { Site } from './entities/site.entity'
 import { SiteTag } from './entities/site-tag.entity'
+import { Site } from './entities/site.entity'
 import { DeleteSiteTagRepository } from './repositories/delete-site-tag.repository'
 import { DeleteSiteRepository } from './repositories/delete.repository'
 import { FindAllSitesRepository } from './repositories/find-all.repository'
@@ -17,7 +18,12 @@ import { SitesController } from './sites.controller'
 import { SitesService } from './sites.service'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Site, SiteTag]), TechnologiesModule, TagsModule],
+  imports: [
+    TypeOrmModule.forFeature([Site, SiteTag]),
+    TechnologiesModule,
+    TagsModule,
+    EncryptionModule,
+  ],
   controllers: [SitesController],
   providers: [
     SitesService,

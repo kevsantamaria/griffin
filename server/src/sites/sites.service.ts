@@ -1,4 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import { CredentialGroupDto } from 'src/common/types'
+import { EncryptionService } from 'src/encryption/encryption.service'
 import { SiteTag } from 'src/sites/entities/site-tag.entity'
 import { DeleteSiteTagRepository } from 'src/sites/repositories/delete-site-tag.repository'
 import { SaveSiteTagRepository } from 'src/sites/repositories/save-site-tag.repository'
@@ -10,7 +12,7 @@ import { DeleteResult } from 'typeorm'
 import { CreateSiteDto } from './dto/create-site.dto'
 import { PaginationDto } from './dto/pagination.dto'
 import { UpdateSiteDto } from './dto/update-site.dto'
-import { CredentialGroup, Site } from './entities/site.entity'
+import { Site } from './entities/site.entity'
 import { DeleteSiteRepository } from './repositories/delete.repository'
 import { FindAllSitesRepository } from './repositories/find-all.repository'
 import { FindSiteByIdRepository } from './repositories/find-by-id.repository'
@@ -26,7 +28,7 @@ type SiteRes = {
   isInternal: boolean
   notes: string
   technologyName: string
-  credentials: CredentialGroup[]
+  credentials: CredentialGroupDto[]
   createdAt: Date
   updatedAt: Date
 }
@@ -43,7 +45,8 @@ export class SitesService {
     private readonly saveSiteTag: SaveSiteTagRepository,
     private readonly deleteSiteTag: DeleteSiteTagRepository,
     private readonly technologiesService: TechnologiesService,
-    private readonly tagsService: TagsService
+    private readonly tagsService: TagsService,
+    private readonly encryptionService: EncryptionService
   ) {}
 
   private toResponse(site: Site): SiteRes {
@@ -67,7 +70,7 @@ export class SitesService {
       isInternal,
       notes,
       tags: siteTags?.map((siteTag) => siteTag.tag.name) ?? [],
-      credentials,
+      credentials: this.encryptionService.decrypt(credentials),
       createdAt,
       updatedAt,
     }
@@ -101,7 +104,7 @@ export class SitesService {
     site.notes = createSiteDto.notes
     site.isInternal = createSiteDto.isInternal
     site.url = createSiteDto.url
-    site.credentials = createSiteDto.credentials
+    site.credentials = this.encryptionService.encrypt(createSiteDto.credentials)
     site.technology = existingTechnology
     site.technologyId = existingTechnology.id
 
@@ -128,28 +131,31 @@ export class SitesService {
   }
 
   async update(id: number, updateSiteDto: UpdateSiteDto): Promise<Site> {
-    const existingSite = await this.preloadSite.execute(id, updateSiteDto)
+    const { credentials, tagNames, technologyName, ...siteFields } = updateSiteDto
+    const existingSite = await this.preloadSite.execute(id, siteFields)
     if (!existingSite) throw new NotFoundException('site not found')
 
-    if (updateSiteDto.name) {
+    if (siteFields.name) {
       const conflict = await this.findExistingSite.execute({
-        name: updateSiteDto.name,
+        name: siteFields.name,
         excludeId: id,
       })
       if (conflict) throw new ConflictException('the site already exists')
     }
 
-    if (updateSiteDto.technologyName) {
-      const existingTechnology = await this.technologiesService.findOrCreate(
-        updateSiteDto.technologyName
-      )
+    if (technologyName) {
+      const existingTechnology = await this.technologiesService.findOrCreate(technologyName)
       existingSite.technology = existingTechnology
+    }
+
+    if (credentials) {
+      existingSite.credentials = this.encryptionService.encrypt(credentials)
     }
 
     const savedSite = await this.saveSite.execute(existingSite)
 
-    if (updateSiteDto.tagNames?.length) {
-      const tags = await this.tagsService.findOrCreate(updateSiteDto.tagNames)
+    if (tagNames?.length) {
+      const tags = await this.tagsService.findOrCreate(tagNames)
       await this.createSiteTags(tags, savedSite.id)
     }
 

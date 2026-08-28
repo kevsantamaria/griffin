@@ -13,9 +13,14 @@ export class PreloadSiteRepository {
   ) {}
 
   async execute(id: number, updateSiteDto: UpdateSiteDto) {
+    const { name, url, isInternal, notes } = updateSiteDto
+
     return await this.siteRepository.preload({
       id,
-      ...updateSiteDto,
+      name,
+      url,
+      isInternal,
+      notes,
     })
   }
 }
