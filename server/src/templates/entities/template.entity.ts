@@ -22,7 +22,7 @@ export class Template {
   @Column({ type: 'varchar', length: 100 })
   name: string
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'jsonb' })
   groups: TemplateGroup[]
 
   @Column()

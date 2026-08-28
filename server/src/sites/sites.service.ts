@@ -10,7 +10,7 @@ import { DeleteResult } from 'typeorm'
 import { CreateSiteDto } from './dto/create-site.dto'
 import { PaginationDto } from './dto/pagination.dto'
 import { UpdateSiteDto } from './dto/update-site.dto'
-import { Site } from './entities/site.entity'
+import { CredentialGroup, Site } from './entities/site.entity'
 import { DeleteSiteRepository } from './repositories/delete.repository'
 import { FindAllSitesRepository } from './repositories/find-all.repository'
 import { FindSiteByIdRepository } from './repositories/find-by-id.repository'
@@ -26,7 +26,7 @@ type SiteRes = {
   isInternal: boolean
   notes: string
   technologyName: string
-  credentials: Record<string, Record<string, string>>
+  credentials: CredentialGroup[]
   createdAt: Date
   updatedAt: Date
 }

@@ -1,6 +1,25 @@
-import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator'
 
-import type { TemplateGroup } from '../entities/template.entity'
+export class TemplateFieldDto {
+  @IsString()
+  @IsNotEmpty()
+  label: string
+
+  @IsEnum(['text', 'password', 'email', 'url'])
+  type: 'text' | 'password' | 'email' | 'url'
+}
+
+export class TemplateGroupDto {
+  @IsString()
+  @IsNotEmpty()
+  header: string
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TemplateFieldDto)
+  fields: TemplateFieldDto[]
+}
 
 export class CreateTemplateDto {
   @IsString()
@@ -8,8 +27,9 @@ export class CreateTemplateDto {
   name: string
 
   @IsArray()
-  @IsObject({ each: true })
-  groups: TemplateGroup[]
+  @ValidateNested({ each: true })
+  @Type(() => TemplateGroupDto)
+  groups: TemplateGroupDto[]
 
   @IsString()
   @IsNotEmpty()

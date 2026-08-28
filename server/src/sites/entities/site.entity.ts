@@ -11,6 +11,17 @@ import {
 import { Technology } from '../../technologies/entities/technology.entity'
 import { SiteTag } from './site-tag.entity'
 
+export type CredentialField = {
+  label: string
+  content: string
+  type: 'text' | 'password' | 'email' | 'url'
+}
+
+export type CredentialGroup = {
+  header: string
+  fields: CredentialField[]
+}
+
 @Entity('sites')
 export class Site {
   @PrimaryGeneratedColumn()
@@ -35,7 +46,7 @@ export class Site {
   technology: Technology
 
   @Column({ type: 'jsonb' })
-  credentials: Record<string, Record<string, string>>
+  credentials: CredentialGroup[]
 
   @OneToMany(() => SiteTag, (siteTag) => siteTag.site)
   siteTags: SiteTag[]

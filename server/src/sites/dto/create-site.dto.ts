@@ -1,12 +1,38 @@
+import { Type } from 'class-transformer'
 import {
   IsArray,
   IsBoolean,
+  IsEnum,
   IsNotEmpty,
-  IsNotEmptyObject,
   IsOptional,
   IsString,
   IsUrl,
+  ValidateNested,
 } from 'class-validator'
+
+export class CredentialFieldDto {
+  @IsString()
+  @IsNotEmpty()
+  label: string
+
+  @IsString()
+  @IsNotEmpty()
+  content: string
+
+  @IsEnum(['text', 'password', 'email', 'url'])
+  type: 'text' | 'password' | 'email' | 'url'
+}
+
+export class CredentialGroupDto {
+  @IsString()
+  @IsNotEmpty()
+  header: string
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CredentialFieldDto)
+  fields: CredentialFieldDto[]
+}
 
 export class CreateSiteDto {
   @IsString()
@@ -29,8 +55,10 @@ export class CreateSiteDto {
   @IsNotEmpty()
   technologyName: string
 
-  @IsNotEmptyObject()
-  credentials: Record<string, Record<string, string>>
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CredentialGroupDto)
+  credentials: CredentialGroupDto[]
 
   @IsArray()
   @IsString({ each: true })
