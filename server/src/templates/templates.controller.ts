@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ValidationPipe,
-  ParseIntPipe,
-} from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common'
 
 import { CreateTemplateDto } from './dto/create-template.dto'
 import { UpdateTemplateDto } from './dto/update-template.dto'
@@ -19,7 +9,7 @@ export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
   @Post()
-  async create(@Body(ValidationPipe) createTemplateDto: CreateTemplateDto) {
+  async create(@Body() createTemplateDto: CreateTemplateDto) {
     return this.templatesService.create(createTemplateDto)
   }
 
@@ -36,7 +26,7 @@ export class TemplatesController {
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body(ValidationPipe) updateTemplateDto: UpdateTemplateDto
+    @Body() updateTemplateDto: UpdateTemplateDto
   ) {
     return this.templatesService.update(id, updateTemplateDto)
   }

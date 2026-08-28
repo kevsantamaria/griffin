@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  ValidationPipe,
   ParseIntPipe,
   Query,
 } from '@nestjs/common'
@@ -21,7 +20,7 @@ export class SitesController {
   constructor(private readonly sitesService: SitesService) {}
 
   @Post()
-  async create(@Body(ValidationPipe) createSiteDto: CreateSiteDto) {
+  async create(@Body() createSiteDto: CreateSiteDto) {
     return this.sitesService.create(createSiteDto)
   }
 
@@ -36,10 +35,7 @@ export class SitesController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(ValidationPipe) updateSiteDto: UpdateSiteDto
-  ) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateSiteDto: UpdateSiteDto) {
     return this.sitesService.update(id, updateSiteDto)
   }
 
