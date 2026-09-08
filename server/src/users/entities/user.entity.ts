@@ -18,9 +18,6 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password: string
 
-  @Column({ type: 'enum', enum: UserRole })
-  role: UserRole
-
   @CreateDateColumn()
   createdAt: Date
 

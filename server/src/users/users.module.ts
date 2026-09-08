@@ -5,6 +5,7 @@ import { User } from './entities/user.entity'
 import { DeleteUserRepository } from './repositories/delete.repository'
 import { FindAllUsersRepository } from './repositories/find-all.repository'
 import { FindUserByIdRepository } from './repositories/find-by-id.repository'
+import { FindUserByUsernameRepository } from './repositories/find-by-username.repository'
 import { FindExistingUserRepository } from './repositories/find-existing-user.repository'
 import { PreloadUserRepository } from './repositories/preload.repository'
 import { SaveUserRepository } from './repositories/save.repository'
@@ -18,10 +19,12 @@ import { UsersService } from './users.service'
     UsersService,
     FindAllUsersRepository,
     FindUserByIdRepository,
+    FindUserByUsernameRepository,
     SaveUserRepository,
     FindExistingUserRepository,
     PreloadUserRepository,
     DeleteUserRepository,
   ],
+  exports: [UsersService],
 })
 export class UsersModule {}

@@ -2,14 +2,15 @@ import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto'
 
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { CredentialGroup, CredentialGroupDto } from 'src/common/types'
+import { CredentialGroupDto } from 'src/common/dto/credential.dto'
+import { CredentialGroup } from 'src/common/types'
 
 @Injectable()
 export class EncryptionService {
   private readonly key: Buffer
 
-  constructor(private readonly configService: ConfigService) {
-    const rawKey = this.configService.get<string>('ENCRYPTION_KEY')
+  constructor(private readonly config: ConfigService) {
+    const rawKey = this.config.get<string>('ENCRYPTION_KEY')
     if (!rawKey || rawKey.length !== 64) {
       throw new InternalServerErrorException(
         'ENCRYPTION_KEY must be a 64-character hex string (32 bytes)'

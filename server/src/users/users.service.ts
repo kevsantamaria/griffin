@@ -7,6 +7,7 @@ import { User } from './entities/user.entity'
 import { DeleteUserRepository } from './repositories/delete.repository'
 import { FindAllUsersRepository } from './repositories/find-all.repository'
 import { FindUserByIdRepository } from './repositories/find-by-id.repository'
+import { FindUserByUsernameRepository } from './repositories/find-by-username.repository'
 import { FindExistingUserRepository } from './repositories/find-existing-user.repository'
 import { PreloadUserRepository } from './repositories/preload.repository'
 import { SaveUserRepository } from './repositories/save.repository'
@@ -15,6 +16,7 @@ import { SaveUserRepository } from './repositories/save.repository'
 export class UsersService {
   constructor(
     private readonly findUserById: FindUserByIdRepository,
+    private readonly findUserByUsername: FindUserByUsernameRepository,
     private readonly findExistingUser: FindExistingUserRepository,
     private readonly findAllUsers: FindAllUsersRepository,
     private readonly saveUser: SaveUserRepository,
@@ -29,7 +31,6 @@ export class UsersService {
     const user = new User()
     user.username = createUserDto.username
     user.password = await hash(createUserDto.password, 10)
-    user.role = createUserDto.role
 
     return await this.saveUser.execute(user)
   }
@@ -41,6 +42,13 @@ export class UsersService {
   async findOne(id: string) {
     const user = await this.findUserById.execute(id)
     if (!user) throw new NotFoundException(`User with id '${id}' not found`)
+
+    return user
+  }
+
+  async findByUsername(username: string) {
+    const user = await this.findUserByUsername.execute(username)
+    if (!user) throw new NotFoundException(`User with id '${username}' not found`)
 
     return user
   }

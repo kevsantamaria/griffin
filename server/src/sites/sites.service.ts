@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
-import { CredentialGroupDto } from 'src/common/types'
+import { CredentialGroup } from 'src/common/types'
 import { EncryptionService } from 'src/encryption/encryption.service'
 import { SiteTag } from 'src/sites/entities/site-tag.entity'
 import { DeleteSiteTagRepository } from 'src/sites/repositories/delete-site-tag.repository'
@@ -28,7 +28,7 @@ type SiteRes = {
   isInternal: boolean
   notes: string
   technologyName: string
-  credentials: CredentialGroupDto[]
+  credentials: CredentialGroup[]
   createdAt: Date
   updatedAt: Date
 }

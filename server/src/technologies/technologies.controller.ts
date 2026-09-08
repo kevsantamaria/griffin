@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
+import { Throttle } from '@nestjs/throttler'
+import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard'
 
 import { CreateTechnologyDto } from './dto/create-technology.dto'
 import { UpdateTechnologyDto } from './dto/update-technology.dto'
 import { TechnologiesService } from './technologies.service'
 
+@UseGuards(AuthenticatedGuard)
 @Controller('technologies')
 export class TechnologiesController {
   constructor(private readonly technologiesService: TechnologiesService) {}
 
   @Post()
+  @Throttle({ write: {} })
   create(@Body() createTechnologyDto: CreateTechnologyDto) {
     return this.technologiesService.create(createTechnologyDto)
   }
 
   @Get()
+  @Throttle({ read: {} })
   findAll() {
     return this.technologiesService.findAll()
   }
 
   @Get(':id')
+  @Throttle({ read: {} })
   findOne(@Param('id') id: string) {
     return this.technologiesService.findOne(+id)
   }
 
   @Patch(':id')
+  @Throttle({ write: {} })
   update(@Param('id') id: string, @Body() updateTechnologyDto: UpdateTechnologyDto) {
     return this.technologiesService.update(+id, updateTechnologyDto)
   }
 
   @Delete(':id')
+  @Throttle({ write: {} })
   remove(@Param('id') id: string) {
     return this.technologiesService.remove(+id)
   }

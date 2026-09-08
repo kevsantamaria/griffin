@@ -8,8 +8,7 @@ import {
   IsUrl,
   ValidateNested,
 } from 'class-validator'
-
-import { CredentialGroupDto } from 'src/common/types'
+import { CredentialGroupDto } from 'src/common/dto/credential.dto'
 
 export class CreateSiteDto {
   @IsString()
