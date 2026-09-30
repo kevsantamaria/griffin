@@ -12,6 +12,14 @@ export class FindAllTemplatesRepository {
   ) {}
 
   async execute() {
-    return await this.templateRepository.find()
+    return await this.templateRepository.find({
+      relations: { templateTags: { tag: true }, technology: true },
+      select: {
+        id: true,
+        name: true,
+        technology: { name: true },
+        templateTags: true,
+      },
+    })
   }
 }

@@ -15,8 +15,16 @@ export class FindAllSitesRepository {
   async execute({ limit, offset }: PaginationDto) {
     return await this.siteRepository.find({
       relations: { siteTags: { tag: true }, technology: true },
-      select: { technology: { name: true } },
-      order: { id: 'desc' },
+      select: {
+        id: true,
+        name: true,
+        isInternal: true,
+        url: true,
+        technology: { name: true },
+        siteTags: true,
+        createdAt: true,
+      },
+      order: { createdAt: 'desc' },
       skip: offset,
       take: limit,
     })

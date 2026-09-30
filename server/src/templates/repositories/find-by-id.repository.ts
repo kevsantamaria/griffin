@@ -11,7 +11,19 @@ export class FindTemplateByIdRepository {
     private readonly templateRepository: Repository<Template>
   ) {}
 
-  async execute(id: number) {
-    return await this.templateRepository.findOneBy({ id })
+  async execute(id: number): Promise<Template | null> {
+    return await this.templateRepository.findOne({
+      where: { id },
+      relations: { templateTags: { tag: true }, technology: true },
+      select: {
+        id: true,
+        name: true,
+        technology: { name: true },
+        groups: true,
+        templateTags: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    })
   }
 }

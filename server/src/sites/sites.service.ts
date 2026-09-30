@@ -20,18 +20,20 @@ import { FindExistingSiteRepository } from './repositories/find-existing.reposit
 import { PreloadSiteRepository } from './repositories/preload.repository'
 import { SaveSiteRepository } from './repositories/save.repository'
 
-type SiteRes = {
-  tags: string[]
+type SingleSiteRes = {
   id: number
   name: string
   url: string
   isInternal: boolean
   notes: string
-  technologyName: string
+  technology: string
   credentials: CredentialGroup[]
+  tags: Tag[]
   createdAt: Date
   updatedAt: Date
 }
+
+type AllSitesRes = Pick<SingleSiteRes, 'id' | 'name' | 'isInternal' | 'technology' | 'tags' | 'url'>
 
 @Injectable()
 export class SitesService {
@@ -49,30 +51,29 @@ export class SitesService {
     private readonly encryptionService: EncryptionService
   ) {}
 
-  private toResponse(site: Site): SiteRes {
-    const {
-      id,
-      name,
-      url,
-      technology,
-      isInternal,
-      notes,
-      siteTags,
-      credentials,
-      createdAt,
-      updatedAt,
-    } = site
+  private toSingleSiteRes(site: Site): SingleSiteRes {
     return {
-      id,
-      name,
-      url,
-      technologyName: technology.name,
-      isInternal,
-      notes,
-      tags: siteTags?.map((siteTag) => siteTag.tag.name) ?? [],
-      credentials: this.encryptionService.decrypt(credentials),
-      createdAt,
-      updatedAt,
+      id: site.id,
+      name: site.name,
+      technology: site.technology.name,
+      isInternal: site.isInternal,
+      url: site.url,
+      notes: site.notes,
+      tags: site.siteTags.map((siteTag) => siteTag.tag),
+      credentials: this.encryptionService.decrypt(site.credentials),
+      createdAt: site.createdAt,
+      updatedAt: site.updatedAt,
+    }
+  }
+
+  private toAllSitesRes(site: Site): AllSitesRes {
+    return {
+      id: site.id,
+      name: site.name,
+      url: site.url,
+      isInternal: site.isInternal,
+      technology: site.technology.name,
+      tags: site.siteTags.map((siteTag) => siteTag.tag),
     }
   }
 
@@ -118,16 +119,16 @@ export class SitesService {
     return savedSite
   }
 
-  async findAll(pagination: PaginationDto): Promise<SiteRes[]> {
+  async findAll(pagination: PaginationDto): Promise<AllSitesRes[]> {
     const sites = await this.findAllSites.execute(pagination)
-    return sites.map((site) => this.toResponse(site))
+    return sites.map((site) => this.toAllSitesRes(site))
   }
 
-  async findOne(id: number): Promise<SiteRes> {
+  async findOne(id: number): Promise<SingleSiteRes> {
     const site = await this.findSiteById.execute(id)
     if (!site) throw new NotFoundException('site not found')
 
-    return this.toResponse(site)
+    return this.toSingleSiteRes(site)
   }
 
   async update(id: number, updateSiteDto: UpdateSiteDto): Promise<Site> {

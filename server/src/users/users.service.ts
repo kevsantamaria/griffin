@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { hash } from 'bcryptjs'
 
 import { CreateUserDto } from './dto/create-user.dto'
@@ -39,16 +44,16 @@ export class UsersService {
     return await this.findAllUsers.execute()
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User> {
     const user = await this.findUserById.execute(id)
     if (!user) throw new NotFoundException(`User with id '${id}' not found`)
 
     return user
   }
 
-  async findByUsername(username: string) {
+  async findByUsername(username: string): Promise<User> {
     const user = await this.findUserByUsername.execute(username)
-    if (!user) throw new NotFoundException(`User with id '${username}' not found`)
+    if (!user) throw new UnauthorizedException(`User with id '${username}' not found`)
 
     return user
   }

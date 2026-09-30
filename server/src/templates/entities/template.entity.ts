@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 import { OneToMany } from 'typeorm/browser'
 
 import { Technology } from '../../technologies/entities/technology.entity'
@@ -33,65 +40,10 @@ export class Template {
 
   @OneToMany(() => TemplateTag, (templateTag) => templateTag.template)
   templateTags: TemplateTag[]
-}
 
-// const credentialGroups = [
-//   {
-//     id: 1,
-//     label: 'WP Admin',
-//     fields: [
-//       {
-//         id: 1,
-//         label: 'Username',
-//         type: 'text',
-//       },
-//       {
-//         id: 2,
-//         label: 'Password',
-//         type: 'password',
-//       },
-//       {
-//         id: 3,
-//         label: 'URL',
-//         type: 'url',
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     label: 'WP Admin 2',
-//     fields: [
-//       {
-//         id: 1,
-//         label: 'Username',
-//         type: 'text',
-//       },
-//       {
-//         id: 2,
-//         label: 'Password',
-//         type: 'password',
-//       },
-//       {
-//         id: 3,
-//         label: 'URL',
-//         type: 'url',
-//       },
-//     ],
-//   },
-//   {
-//     id: 3,
-//     label: 'FTP',
-//     fields: [
-//       {
-//         id: 1,
-//         label: 'Username',
-//         type: 'text',
-//       },
-//       {
-//         id: 2,
-//         label: 'Password',
-//         type: 'password',
-//       },
-//     ],
-//   },
-// ]
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
+}

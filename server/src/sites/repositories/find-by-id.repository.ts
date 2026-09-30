@@ -11,11 +11,22 @@ export class FindSiteByIdRepository {
     private readonly siteRepository: Repository<Site>
   ) {}
 
-  async execute(id: number) {
+  async execute(id: number): Promise<Site | null> {
     return await this.siteRepository.findOne({
       where: { id },
       relations: { siteTags: { tag: true }, technology: true },
-      select: { technology: { name: true } },
+      select: {
+        id: true,
+        name: true,
+        isInternal: true,
+        url: true,
+        notes: true,
+        technology: { name: true },
+        credentials: true,
+        siteTags: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     })
   }
 }

@@ -39,7 +39,7 @@ export class TechnologiesService {
     return technology
   }
 
-  async update(id: number, updateTechnologyDto: UpdateTechnologyDto) {
+  async update(id: number, _updateTechnologyDto: UpdateTechnologyDto) {
     return `This action updates a #${id} technology`
   }
 

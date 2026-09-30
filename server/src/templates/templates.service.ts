@@ -1,7 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { Tag } from 'src/tags/entities/tag.entity'
 import { TagsService } from 'src/tags/tags.service'
-import { Technology } from 'src/technologies/entities/technology.entity'
 import { TechnologiesService } from 'src/technologies/technologies.service'
 import { DeleteResult } from 'typeorm'
 
@@ -18,14 +17,17 @@ import { PreloadTemplateRepository } from './repositories/preload.repository'
 import { SaveTemplateTagRepository } from './repositories/save-template-tag.repository'
 import { SaveTemplateRepository } from './repositories/save.repository'
 
-type TemplateRes = {
-  tags: string[]
+type SingleTemplateRes = {
   id: number
   name: string
   groups: TemplateGroup[]
-  technologyId: number
-  technology: Technology
+  createdAt: Date
+  updatedAt: Date
+  technology: string
+  tags: Tag[]
 }
+
+type AllTemplatesRes = Pick<SingleTemplateRes, 'id' | 'name' | 'technology' | 'tags'>
 
 @Injectable()
 export class TemplatesService {
@@ -42,11 +44,24 @@ export class TemplatesService {
     private readonly tagsService: TagsService
   ) {}
 
-  private toResponse(template: Template): TemplateRes {
-    const { templateTags, ...rest } = template
+  private toSingleTemplateRes(template: Template): SingleTemplateRes {
     return {
-      ...rest,
-      tags: templateTags?.map((templateTag) => templateTag.tag.name) ?? [],
+      id: template.id,
+      name: template.name,
+      technology: template.technology.name,
+      groups: template.groups,
+      tags: template.templateTags.map((templateTag) => templateTag.tag),
+      createdAt: template.createdAt,
+      updatedAt: template.updatedAt,
+    }
+  }
+
+  private toAllTemplatesRes(template: Template): AllTemplatesRes {
+    return {
+      id: template.id,
+      name: template.name,
+      technology: template.technology.name,
+      tags: template.templateTags.map((templateTag) => templateTag.tag),
     }
   }
 
@@ -90,17 +105,17 @@ export class TemplatesService {
     return savedTemplate
   }
 
-  async findAll(): Promise<TemplateRes[] | []> {
+  async findAll(): Promise<AllTemplatesRes[]> {
     const templates = await this.findAllTemplates.execute()
 
-    return templates.map((template) => this.toResponse(template))
+    return templates.map((template) => this.toAllTemplatesRes(template))
   }
 
-  async findOne(id: number): Promise<TemplateRes> {
+  async findOne(id: number): Promise<SingleTemplateRes> {
     const template = await this.findTemplateById.execute(id)
     if (!template) throw new NotFoundException('no existe la plantilla tanke')
 
-    return this.toResponse(template)
+    return this.toSingleTemplateRes(template)
   }
 
   async update(id: number, updateTemplateDto: UpdateTemplateDto): Promise<Template> {
