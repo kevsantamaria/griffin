@@ -1,4 +1,7 @@
 packages:
-  - "server"
+  - "apps/*"
+  - "packages/*"
 allowBuilds:
+  "@parcel/watcher": true
   unrs-resolver: true
+  vue-demi: true

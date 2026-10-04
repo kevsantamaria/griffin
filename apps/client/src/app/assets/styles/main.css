@@ -1,0 +1,25 @@
+/*@import "tailwindcss";*/
+
+:root {
+  --color-orange: #fb5605;
+  --color-white: #fcfbf9;
+  --color-black: #0d1b15;
+
+  --border-radius: 0.24em;
+}
+
+body {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+body::selection {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+}
+
+h1 {
+  margin-bottom: 1em;
+  font-size: 1.8em;
+  color: var(--color-black);
+}

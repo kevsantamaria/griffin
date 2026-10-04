@@ -1,14 +1,29 @@
 {
-  "name": "credentials-manager",
-  "version": "1.0.0",
+  "name": "griffin",
+  "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "author": {
+    "email": "kevsantamaria01@gmail.com",
+    "name": "Kevin Santamaria",
+    "url": "https://kevsantamaria.is-a.dev"
+  },
+  "description": "",
+  "license": "MIT",
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "^11.15.1",
+      "version": "^12.3.4",
       "onFail": "download"
     }
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter '@griffin/server' --filter '@griffin/client' --filter '@griffin/dto' dev",
+    "dev:client": "pnpm --filter @griffin/client dev",
+    "dev:server": "pnpm --filter @griffin/server start:dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
+    "test": "pnpm --filter @griffin/server test"
   },
   "devDependencies": {
     "oxfmt": "^0.62.0",
