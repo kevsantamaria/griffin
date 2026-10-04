@@ -1,7 +1,7 @@
 {
   "languages": {
     "TypeScript": {
-      "language_servers": ["typescript-language-server", "oxlint", "!vtsls"],
+      "language_servers": ["vtsls", "oxlint", "!typescript-language-server"],
       "format_on_save": "on",
       "formatter": {
         "external": {
@@ -10,8 +10,8 @@
         },
       },
     },
-    "TSX": {
-      "language_servers": ["typescript-language-server", "oxlint", "!vtsls"],
+    "Vue.js": {
+      "language_servers": ["vue-language-server", "oxlint", "vtsls"],
       "format_on_save": "on",
       "formatter": {
         "external": {
