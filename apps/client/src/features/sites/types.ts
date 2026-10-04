@@ -25,21 +25,3 @@ type CredentialGroup = {
   header: string
   fields: CredentialField[]
 }
-
-// TODO pasar estos tipos a validaciones reales
-
-export type GetAllSitesParams = {
-  pagination: { limit: number; offset: number }
-}
-
-export type CreateSiteParams = {
-  name: string
-  url: string
-  isInternal: boolean
-  notes: string
-  technologyName: string
-  credentials: CredentialGroup[]
-  tagNames: string[]
-}
-
-export type UpdateSiteParams = Partial<CreateSiteParams>

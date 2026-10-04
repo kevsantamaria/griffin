@@ -1,3 +1,5 @@
+import type { CreateTemplateDto, UpdateTemplateDto } from '@griffin/schemas'
+
 import { api } from '@/app/config/base-api'
 
 import type { TemplatesRepository } from '../repository'
@@ -12,14 +14,14 @@ const templates = {
     return api(`/templates/${id}`)
   },
 
-  create: async (template: CreateTemplateParams): Promise<void> => {
+  create: async (template: CreateTemplateDto): Promise<void> => {
     return api('/templates', {
       method: 'POST',
       json: template,
     })
   },
 
-  update: async (id: number, template: UpdateTemplateParams): Promise<void> => {
+  update: async (id: number, template: UpdateTemplateDto): Promise<void> => {
     return api(`/templates/${id}`, {
       method: 'PATCH',
       json: template,
