@@ -3,6 +3,9 @@
     "TypeScript": {
       "language_servers": ["vtsls", "oxlint", "!typescript-language-server"],
       "format_on_save": "on",
+      "code_actions_on_format": {
+        "source.organizeImports": true,
+      },
       "formatter": {
         "external": {
           "command": "./node_modules/.bin/oxfmt",
@@ -13,6 +16,9 @@
     "Vue.js": {
       "language_servers": ["vue-language-server", "oxlint", "vtsls"],
       "format_on_save": "on",
+      "code_actions_on_format": {
+        "source.organizeImports": true,
+      },
       "formatter": {
         "external": {
           "command": "./node_modules/.bin/oxfmt",
