@@ -10,6 +10,7 @@ import { DeleteSiteTagRepository } from './repositories/delete-site-tag.reposito
 import { DeleteSiteRepository } from './repositories/delete.repository'
 import { FindAllSitesRepository } from './repositories/find-all.repository'
 import { FindSiteByIdRepository } from './repositories/find-by-id.repository'
+import { FindSiteBySlugRepository } from './repositories/find-by-slug.repository'
 import { FindExistingSiteRepository } from './repositories/find-existing.repository'
 import { PreloadSiteRepository } from './repositories/preload.repository'
 import { SaveSiteTagRepository } from './repositories/save-site-tag.repository'
@@ -29,6 +30,7 @@ import { SitesService } from './sites.service'
     SitesService,
     FindAllSitesRepository,
     FindSiteByIdRepository,
+    FindSiteBySlugRepository,
     FindExistingSiteRepository,
     SaveSiteRepository,
     PreloadSiteRepository,

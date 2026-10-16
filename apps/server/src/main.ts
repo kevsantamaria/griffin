@@ -11,11 +11,11 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new ConsoleLogger({
-      prefix: 'credentials-manager',
+      prefix: 'griffin',
       logLevels: ['log'],
     }),
     cors: {
-      origin: 'http://localhost:5173/',
+      origin: 'http://localhost:5173',
       methods: ['POST', 'GET', 'PATCH', 'DELETE'],
       credentials: true,
     },
@@ -41,7 +41,7 @@ async function bootstrap() {
 
   app.use(
     session({
-      name: 'credentials-manager.sid',
+      name: 'griffin.sid',
       secret: config.getOrThrow<string>('SESSION_SECRET'),
       resave: false,
       saveUninitialized: false,
@@ -57,8 +57,6 @@ async function bootstrap() {
 
   app.use(passport.initialize())
   app.use(passport.session())
-
-  // app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
 
   app.setGlobalPrefix('api')
 

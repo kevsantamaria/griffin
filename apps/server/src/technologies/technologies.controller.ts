@@ -13,31 +13,31 @@ export class TechnologiesController {
 
   @Post()
   @Throttle({ write: {} })
-  create(@Body() createTechnologyDto: CreateTechnologyDto) {
-    return this.technologiesService.create(createTechnologyDto)
+  async create(@Body() createTechnologyDto: CreateTechnologyDto) {
+    return { data: await this.technologiesService.create(createTechnologyDto) }
   }
 
   @Get()
   @Throttle({ read: {} })
-  findAll() {
-    return this.technologiesService.findAll()
+  async findAll() {
+    return { data: await this.technologiesService.findAll() }
   }
 
   @Get(':id')
   @Throttle({ read: {} })
-  findOne(@Param('id') id: string) {
-    return this.technologiesService.findOne(+id)
+  async findOne(@Param('id') id: string) {
+    return { data: await this.technologiesService.findOne(+id) }
   }
 
   @Patch(':id')
   @Throttle({ write: {} })
-  update(@Param('id') id: string, @Body() updateTechnologyDto: UpdateTechnologyDto) {
-    return this.technologiesService.update(+id, updateTechnologyDto)
+  async update(@Param('id') id: string, @Body() updateTechnologyDto: UpdateTechnologyDto) {
+    return { data: await this.technologiesService.update(+id, updateTechnologyDto) }
   }
 
   @Delete(':id')
   @Throttle({ write: {} })
-  remove(@Param('id') id: string) {
-    return this.technologiesService.remove(+id)
+  async remove(@Param('id') id: string) {
+    return { data: await this.technologiesService.remove(+id) }
   }
 }

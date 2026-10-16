@@ -19,7 +19,9 @@ export class FindAllTemplatesRepository {
         name: true,
         technology: { name: true },
         templateTags: true,
+        slug: true,
       },
+      order: { createdAt: 'desc' },
     })
   }
 }

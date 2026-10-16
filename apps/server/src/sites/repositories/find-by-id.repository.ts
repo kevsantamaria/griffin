@@ -24,6 +24,7 @@ export class FindSiteByIdRepository {
         technology: { name: true },
         credentials: true,
         siteTags: true,
+        slug: true,
         createdAt: true,
         updatedAt: true,
       },

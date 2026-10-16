@@ -21,6 +21,7 @@ export class FindTemplateByIdRepository {
         technology: { name: true },
         groups: true,
         templateTags: true,
+        slug: true,
         createdAt: true,
         updatedAt: true,
       },

@@ -1,3 +1,5 @@
+import { TemplateGroup } from '@griffin/schemas'
+import { Technology } from 'src/technologies/entities/technology.entity'
 import {
   Column,
   CreateDateColumn,
@@ -8,18 +10,7 @@ import {
 } from 'typeorm'
 import { OneToMany } from 'typeorm/browser'
 
-import { Technology } from '../../technologies/entities/technology.entity'
 import { TemplateTag } from './template-tag.entity'
-
-export type TemplateField = {
-  label: string
-  type: 'text' | 'password' | 'email' | 'url'
-}
-
-export type TemplateGroup = {
-  header: string
-  fields: TemplateField[]
-}
 
 @Entity('templates')
 export class Template {
@@ -40,6 +31,9 @@ export class Template {
 
   @OneToMany(() => TemplateTag, (templateTag) => templateTag.template)
   templateTags: TemplateTag[]
+
+  @Column()
+  slug: string
 
   @CreateDateColumn()
   createdAt: Date

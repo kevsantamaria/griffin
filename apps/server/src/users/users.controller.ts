@@ -14,30 +14,30 @@ export class UsersController {
   @Post()
   @Throttle({ write: {} })
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto)
+    return { data: await this.usersService.create(createUserDto) }
   }
 
   @Get()
   @Throttle({ read: {} })
   async findAll() {
-    return this.usersService.findAll()
+    return { data: await this.usersService.findAll() }
   }
 
   @Get(':id')
   @Throttle({ read: {} })
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id)
+  async findOne(@Param('id') id: string) {
+    return { data: await this.usersService.findOne(id) }
   }
 
   @Patch(':id')
   @Throttle({ write: {} })
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto)
+    return { data: await this.usersService.update(id, updateUserDto) }
   }
 
   @Delete(':id')
   @Throttle({ write: {} })
   async remove(@Param('id') id: string) {
-    return this.usersService.remove(id)
+    return { data: await this.usersService.remove(id) }
   }
 }

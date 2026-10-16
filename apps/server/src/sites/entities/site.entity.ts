@@ -1,3 +1,4 @@
+import { Technology } from 'src/technologies/entities/technology.entity'
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +9,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { Technology } from '../../technologies/entities/technology.entity'
 import { SiteTag } from './site-tag.entity'
 
 @Entity('sites')
@@ -34,11 +34,15 @@ export class Site {
   @ManyToOne(() => Technology)
   technology: Technology
 
+  // Must be string because the encryptation
   @Column({ type: 'jsonb' })
   credentials: string
 
   @OneToMany(() => SiteTag, (siteTag) => siteTag.site)
   siteTags: SiteTag[]
+
+  @Column()
+  slug: string
 
   @CreateDateColumn()
   createdAt: Date

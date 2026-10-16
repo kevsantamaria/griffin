@@ -1,12 +1,12 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
   ParseIntPipe,
+  Patch,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common'
@@ -26,30 +26,36 @@ export class SitesController {
   @Post()
   @Throttle({ write: {} })
   async create(@Body() createSiteDto: CreateSiteDto) {
-    return this.sitesService.create(createSiteDto)
+    return { data: await this.sitesService.create(createSiteDto) }
   }
 
   @Get()
   @Throttle({ read: {} })
   async findAll(@Query() pagination: PaginationDto) {
-    return this.sitesService.findAll(pagination)
+    return { data: await this.sitesService.findAll(pagination) }
+  }
+
+  @Get('slug/:slug')
+  @Throttle({ read: {} })
+  async findBySlug(@Param('slug') slug: string) {
+    return { data: await this.sitesService.findOneBySlug(slug) }
   }
 
   @Get(':id')
   @Throttle({ read: {} })
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.sitesService.findOne(id)
+    return { data: await this.sitesService.findOne(id) }
   }
 
   @Patch(':id')
   @Throttle({ write: {} })
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateSiteDto: UpdateSiteDto) {
-    return this.sitesService.update(id, updateSiteDto)
+    return { data: await this.sitesService.update(id, updateSiteDto) }
   }
 
   @Delete(':id')
   @Throttle({ write: {} })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    return this.sitesService.delete(id)
+    return { data: await this.sitesService.delete(id) }
   }
 }

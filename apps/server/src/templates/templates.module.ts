@@ -9,6 +9,7 @@ import { DeleteTemplateTagRepository } from './repositories/delete-template-tag.
 import { DeleteTemplateRepository } from './repositories/delete.repository'
 import { FindAllTemplatesRepository } from './repositories/find-all.repository'
 import { FindTemplateByIdRepository } from './repositories/find-by-id.repository'
+import { FindTemplateBySlugRepository } from './repositories/find-by-slug.repository'
 import { FindExistingTemplateRepository } from './repositories/find-existing.repository'
 import { PreloadTemplateRepository } from './repositories/preload.repository'
 import { SaveTemplateTagRepository } from './repositories/save-template-tag.repository'
@@ -23,6 +24,7 @@ import { TemplatesService } from './templates.service'
     TemplatesService,
     FindAllTemplatesRepository,
     FindTemplateByIdRepository,
+    FindTemplateBySlugRepository,
     FindExistingTemplateRepository,
     SaveTemplateRepository,
     PreloadTemplateRepository,

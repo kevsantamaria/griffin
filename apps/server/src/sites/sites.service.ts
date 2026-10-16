@@ -1,5 +1,6 @@
+import type { AllSitesRes, SingleSiteRes } from '@griffin/schemas'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
-import { CredentialGroup } from 'src/common/types'
+import { slugify } from 'src/common/utils/slug'
 import { EncryptionService } from 'src/encryption/encryption.service'
 import { SiteTag } from 'src/sites/entities/site-tag.entity'
 import { DeleteSiteTagRepository } from 'src/sites/repositories/delete-site-tag.repository'
@@ -16,29 +17,16 @@ import { Site } from './entities/site.entity'
 import { DeleteSiteRepository } from './repositories/delete.repository'
 import { FindAllSitesRepository } from './repositories/find-all.repository'
 import { FindSiteByIdRepository } from './repositories/find-by-id.repository'
+import { FindSiteBySlugRepository } from './repositories/find-by-slug.repository'
 import { FindExistingSiteRepository } from './repositories/find-existing.repository'
 import { PreloadSiteRepository } from './repositories/preload.repository'
 import { SaveSiteRepository } from './repositories/save.repository'
-
-type SingleSiteRes = {
-  id: number
-  name: string
-  url: string | null
-  isInternal: boolean
-  notes: string | null
-  technology: string
-  credentials: CredentialGroup[]
-  tags: Tag[]
-  createdAt: Date
-  updatedAt: Date
-}
-
-type AllSitesRes = Pick<SingleSiteRes, 'id' | 'name' | 'isInternal' | 'technology' | 'tags' | 'url'>
 
 @Injectable()
 export class SitesService {
   constructor(
     private readonly findSiteById: FindSiteByIdRepository,
+    private readonly findSiteBySlug: FindSiteBySlugRepository,
     private readonly findExistingSite: FindExistingSiteRepository,
     private readonly findAllSites: FindAllSitesRepository,
     private readonly saveSite: SaveSiteRepository,
@@ -60,6 +48,7 @@ export class SitesService {
       url: site.url,
       notes: site.notes,
       tags: site.siteTags.map((siteTag) => siteTag.tag),
+      slug: site.slug,
       credentials: this.encryptionService.decrypt(site.credentials),
       createdAt: site.createdAt,
       updatedAt: site.updatedAt,
@@ -74,6 +63,7 @@ export class SitesService {
       isInternal: site.isInternal,
       technology: site.technology.name,
       tags: site.siteTags.map((siteTag) => siteTag.tag),
+      slug: site.slug,
     }
   }
 
@@ -108,6 +98,7 @@ export class SitesService {
     site.credentials = this.encryptionService.encrypt(createSiteDto.credentials)
     site.technology = existingTechnology
     site.technologyId = existingTechnology.id
+    site.slug = slugify(createSiteDto.name)
 
     const savedSite = await this.saveSite.execute(site)
 
@@ -131,9 +122,16 @@ export class SitesService {
     return this.toSingleSiteRes(site)
   }
 
+  async findOneBySlug(slug: string): Promise<SingleSiteRes> {
+    const site = await this.findSiteBySlug.execute(slug)
+    if (!site) throw new NotFoundException('site not found')
+
+    return this.toSingleSiteRes(site)
+  }
+
   async update(id: number, updateSiteDto: UpdateSiteDto): Promise<Site> {
     const { credentials, tagNames, technologyName, ...siteFields } = updateSiteDto
-    const existingSite = await this.preloadSite.execute(id, siteFields)
+    const existingSite = await this.preloadSite.execute(id, updateSiteDto)
     if (!existingSite) throw new NotFoundException('site not found')
 
     if (siteFields.name) {
@@ -142,6 +140,8 @@ export class SitesService {
         excludeId: id,
       })
       if (conflict) throw new ConflictException('the site already exists')
+
+      existingSite.slug = slugify(siteFields.name)
     }
 
     if (technologyName) {

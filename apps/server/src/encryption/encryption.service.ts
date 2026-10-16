@@ -1,9 +1,10 @@
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto'
 
+import { CredentialGroup } from '@griffin/schemas'
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { CredentialGroupDto } from 'src/common/dto/credential.dto'
-import { CredentialGroup } from 'src/common/types'
+
+import { CredentialGroupDto } from './dto/credential.dto'
 
 @Injectable()
 export class EncryptionService {

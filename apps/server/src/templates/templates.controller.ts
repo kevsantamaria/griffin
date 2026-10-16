@@ -14,19 +14,25 @@ export class TemplatesController {
   @Post()
   @Throttle({ write: {} })
   async create(@Body() createTemplateDto: CreateTemplateDto) {
-    return this.templatesService.create(createTemplateDto)
+    return { data: await this.templatesService.create(createTemplateDto) }
   }
 
   @Get()
   @Throttle({ read: {} })
   async findAll() {
-    return this.templatesService.findAll()
+    return { data: await this.templatesService.findAll() }
+  }
+
+  @Get('slug/:slug')
+  @Throttle({ read: {} })
+  async findBySlug(@Param('slug') slug: string) {
+    return { data: await this.templatesService.findOneBySlug(slug) }
   }
 
   @Get(':id')
   @Throttle({ read: {} })
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.templatesService.findOne(id)
+    return { data: await this.templatesService.findOne(id) }
   }
 
   @Patch(':id')
@@ -35,12 +41,12 @@ export class TemplatesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateTemplateDto: UpdateTemplateDto
   ) {
-    return this.templatesService.update(id, updateTemplateDto)
+    return { data: await this.templatesService.update(id, updateTemplateDto) }
   }
 
   @Delete(':id')
   @Throttle({ write: {} })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    return this.templatesService.remove(id)
+    return { data: await this.templatesService.remove(id) }
   }
 }

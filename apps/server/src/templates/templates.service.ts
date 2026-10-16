@@ -1,4 +1,6 @@
+import { AllTemplatesRes, SingleTemplateRes } from '@griffin/schemas'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import { slugify } from 'src/common/utils/slug'
 import { Tag } from 'src/tags/entities/tag.entity'
 import { TagsService } from 'src/tags/tags.service'
 import { TechnologiesService } from 'src/technologies/technologies.service'
@@ -7,27 +9,16 @@ import { DeleteResult } from 'typeorm'
 import { CreateTemplateDto } from './dto/create-template.dto'
 import { UpdateTemplateDto } from './dto/update-template.dto'
 import { TemplateTag } from './entities/template-tag.entity'
-import { Template, TemplateGroup } from './entities/template.entity'
+import { Template } from './entities/template.entity'
 import { DeleteTemplateTagRepository } from './repositories/delete-template-tag.repository'
 import { DeleteTemplateRepository } from './repositories/delete.repository'
 import { FindAllTemplatesRepository } from './repositories/find-all.repository'
 import { FindTemplateByIdRepository } from './repositories/find-by-id.repository'
+import { FindTemplateBySlugRepository } from './repositories/find-by-slug.repository'
 import { FindExistingTemplateRepository } from './repositories/find-existing.repository'
 import { PreloadTemplateRepository } from './repositories/preload.repository'
 import { SaveTemplateTagRepository } from './repositories/save-template-tag.repository'
 import { SaveTemplateRepository } from './repositories/save.repository'
-
-type SingleTemplateRes = {
-  id: number
-  name: string
-  groups: TemplateGroup[]
-  createdAt: Date
-  updatedAt: Date
-  technology: string
-  tags: Tag[]
-}
-
-type AllTemplatesRes = Pick<SingleTemplateRes, 'id' | 'name' | 'technology' | 'tags'>
 
 @Injectable()
 export class TemplatesService {
@@ -35,6 +26,7 @@ export class TemplatesService {
     private readonly findExistingTemplate: FindExistingTemplateRepository,
     private readonly findAllTemplates: FindAllTemplatesRepository,
     private readonly findTemplateById: FindTemplateByIdRepository,
+    private readonly findTemplateBySlug: FindTemplateBySlugRepository,
     private readonly saveTemplate: SaveTemplateRepository,
     private readonly preloadTemplate: PreloadTemplateRepository,
     private readonly removeTemplate: DeleteTemplateRepository,
@@ -51,6 +43,7 @@ export class TemplatesService {
       technology: template.technology.name,
       groups: template.groups,
       tags: template.templateTags.map((templateTag) => templateTag.tag),
+      slug: template.slug,
       createdAt: template.createdAt,
       updatedAt: template.updatedAt,
     }
@@ -62,6 +55,7 @@ export class TemplatesService {
       name: template.name,
       technology: template.technology.name,
       tags: template.templateTags.map((templateTag) => templateTag.tag),
+      slug: template.slug,
     }
   }
 
@@ -88,6 +82,7 @@ export class TemplatesService {
     const template = new Template()
     template.name = createTemplateDto.name
     template.groups = createTemplateDto.groups
+    template.slug = slugify(createTemplateDto.name)
 
     const existingTechnology = await this.technologiesService.findOrCreate(
       createTemplateDto.technologyName
@@ -118,6 +113,13 @@ export class TemplatesService {
     return this.toSingleTemplateRes(template)
   }
 
+  async findOneBySlug(slug: string): Promise<SingleTemplateRes> {
+    const template = await this.findTemplateBySlug.execute(slug)
+    if (!template) throw new NotFoundException('no existe la plantilla tanke')
+
+    return this.toSingleTemplateRes(template)
+  }
+
   async update(id: number, updateTemplateDto: UpdateTemplateDto): Promise<Template> {
     const existingTemplate = await this.preloadTemplate.execute(id, updateTemplateDto)
     if (!existingTemplate) throw new NotFoundException('esta plantilla no existe pepillo')
@@ -128,6 +130,7 @@ export class TemplatesService {
         excludeId: id,
       })
       if (conflict) throw new ConflictException('ya existe tanke, actualiza con otro nombre')
+      existingTemplate.slug = slugify(updateTemplateDto.name)
     }
 
     if (updateTemplateDto.technologyName) {

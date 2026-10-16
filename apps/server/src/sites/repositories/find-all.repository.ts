@@ -22,7 +22,7 @@ export class FindAllSitesRepository {
         url: true,
         technology: { name: true },
         siteTags: true,
-        createdAt: true,
+        slug: true,
       },
       order: { createdAt: 'desc' },
       skip: offset,

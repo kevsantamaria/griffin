@@ -13,18 +13,18 @@ export class TagsController {
   @Post()
   @Throttle({ write: {} })
   async create(@Body() createTagDto: CreateTagDto) {
-    return this.tagsService.create(createTagDto)
+    return { data: await this.tagsService.create(createTagDto) }
   }
 
   @Get()
   @Throttle({ read: {} })
-  findAll() {
-    return this.tagsService.findAll()
+  async findAll() {
+    return { data: await this.tagsService.findAll() }
   }
 
   @Delete(':id')
   @Throttle({ write: {} })
-  remove(@Param('id') id: string) {
-    return this.tagsService.remove(+id)
+  async remove(@Param('id') id: string) {
+    return { data: await this.tagsService.remove(+id) }
   }
 }

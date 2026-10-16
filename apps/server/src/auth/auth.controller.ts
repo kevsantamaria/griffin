@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import type { Response, Request } from 'express'
+import type { Request, Response } from 'express'
 
 import { AuthService } from './auth.service'
 import { AuthenticatedGuard } from './guards/authenticated.guard'
@@ -17,7 +17,7 @@ export class AuthController {
   async login(@Req() req: Request) {
     return {
       message: 'Login successful',
-      user: req.user,
+      data: req.user,
     }
   }
 
@@ -44,6 +44,6 @@ export class AuthController {
   @UseGuards(AuthenticatedGuard)
   @Get('me')
   async getMe(@Req() req: Request) {
-    return req.user
+    return { data: req.user }
   }
 }
