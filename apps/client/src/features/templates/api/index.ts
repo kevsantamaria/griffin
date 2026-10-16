@@ -1,34 +1,35 @@
-import type { CreateTemplateDto, UpdateTemplateDto } from '@griffin/schemas'
-
 import { api } from '@/app/config/base-api'
 
 import type { TemplatesRepository } from '../repository'
-import type { Template, TemplateListItem } from '../types'
 
 const templates = {
-  getAll: async (): Promise<TemplateListItem[]> => {
+  getAll: async () => {
     return api('/templates')
   },
 
-  getById: async (id: number): Promise<Template> => {
+  getById: async (id) => {
     return api(`/templates/${id}`)
   },
 
-  create: async (template: CreateTemplateDto): Promise<void> => {
+  getBySlug: async (slug) => {
+    return api(`/templates/slug/${slug}`)
+  },
+
+  create: async (template) => {
     return api('/templates', {
       method: 'POST',
       json: template,
     })
   },
 
-  update: async (id: number, template: UpdateTemplateDto): Promise<void> => {
+  update: async (id, template) => {
     return api(`/templates/${id}`, {
       method: 'PATCH',
       json: template,
     })
   },
 
-  delete: async (id: number): Promise<void> => {
+  delete: async (id) => {
     return api(`/templates/${id}`, {
       method: 'DELETE',
     })

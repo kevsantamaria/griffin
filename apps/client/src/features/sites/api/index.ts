@@ -1,12 +1,9 @@
-import type { PaginationDto, CreateSiteDto, UpdateSiteDto } from '@griffin/schemas'
-
 import { api } from '@/app/config/base-api'
 
 import type { SitesRepository } from '../repository'
-import type { Site, SiteListItem } from '../types'
 
 const sites = {
-  getAll: async (pagination?: PaginationDto): Promise<SiteListItem[]> => {
+  getAll: async (pagination?) => {
     const searchParams = new URLSearchParams()
 
     if (pagination?.limit !== undefined) searchParams.set('limit', String(pagination.limit))
@@ -17,25 +14,29 @@ const sites = {
     return api(`/sites${query ? `?${query}` : ''}`)
   },
 
-  getById: async (id: number): Promise<Site> => {
+  getById: async (id) => {
     return api(`/sites/${id}`)
   },
 
-  create: async (site: CreateSiteDto): Promise<void> => {
+  getBySlug: async (slug) => {
+    return api(`/sites/slug/${slug}`)
+  },
+
+  create: async (site) => {
     return api('/sites', {
       method: 'POST',
       json: site,
     })
   },
 
-  update: async (id: number, site: UpdateSiteDto): Promise<void> => {
+  update: async (id, site) => {
     return api(`/sites/${id}`, {
       method: 'PATCH',
       json: site,
     })
   },
 
-  delete: async (id: number): Promise<void> => {
+  delete: async (id) => {
     return api(`/sites/${id}`, {
       method: 'DELETE',
     })

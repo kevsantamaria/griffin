@@ -1,11 +1,17 @@
-import type { CreateTemplateDto, UpdateTemplateDto } from '@griffin/schemas'
+import type {
+  AllTemplatesRes,
+  CreateTemplateDto,
+  SingleTemplateRes,
+  UpdateTemplateDto,
+} from '@griffin/schemas'
 
-import type { Template, TemplateListItem } from './types'
+import type { MutatedTemplate } from './types'
 
 export interface TemplatesRepository {
-  getAll(): Promise<TemplateListItem[]>
-  getById(id: number): Promise<Template>
-  create(template: CreateTemplateDto): Promise<void>
-  update(id: number, template: UpdateTemplateDto): Promise<void>
+  getAll(): Promise<AllTemplatesRes[]>
+  getById(id: number): Promise<SingleTemplateRes>
+  getBySlug(slug: string): Promise<SingleTemplateRes>
+  create(template: CreateTemplateDto): Promise<MutatedTemplate>
+  update(id: number, template: UpdateTemplateDto): Promise<MutatedTemplate>
   delete(id: number): Promise<void>
 }

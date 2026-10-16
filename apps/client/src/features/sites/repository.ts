@@ -1,11 +1,18 @@
-import type { PaginationDto, CreateSiteDto, UpdateSiteDto } from '@griffin/schemas'
+import type {
+  AllSitesRes,
+  CreateSiteDto,
+  PaginationDto,
+  SingleSiteRes,
+  UpdateSiteDto,
+} from '@griffin/schemas'
 
-import type { Site, SiteListItem } from './types'
+import type { MutatedSite } from './types'
 
 export interface SitesRepository {
-  getAll(params?: PaginationDto): Promise<SiteListItem[] | []>
-  getById(id: number): Promise<Site | null>
-  create(site: CreateSiteDto): Promise<void>
-  update(id: number, site: UpdateSiteDto): Promise<void>
+  getAll(params?: PaginationDto): Promise<AllSitesRes[] | []>
+  getById(id: number): Promise<SingleSiteRes | null>
+  getBySlug(slug: string): Promise<SingleSiteRes | null>
+  create(site: CreateSiteDto): Promise<MutatedSite>
+  update(id: number, site: UpdateSiteDto): Promise<MutatedSite>
   delete(id: number): Promise<void>
 }

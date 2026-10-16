@@ -13,14 +13,20 @@ import LoginForm from '@/features/auth/components/LoginForm.vue'
 
 <style lang="css" scoped>
 section {
-  height: 100vh;
   display: grid;
-  place-content: center;
+  min-height: 60vh;
+  place-items: center;
 }
 
 div {
-  background-color: var(--color-white);
-  padding: 3em 4em;
+  width: min(100%, 22rem);
+  padding: var(--space-8);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
+}
+
+h1 {
+  text-align: center;
 }
 </style>

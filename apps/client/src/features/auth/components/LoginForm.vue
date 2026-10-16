@@ -29,14 +29,8 @@ const submit = () => {
 </template>
 
 <style lang="css" scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
 .error {
-  color: #d1273c;
+  color: var(--color-danger);
   font-size: 0.9em;
   text-align: center;
 }

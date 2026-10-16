@@ -8,18 +8,29 @@ const model = defineModel<string>()
 
 <style lang="css" scoped>
 input {
-  border: 1px solid var(--color-black);
-  padding: 4px 9px;
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  color: var(--color-white);
+  font: inherit;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
-  color: var(--color-black);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+input::placeholder {
+  color: var(--color-muted);
+}
+
+input:hover {
+  border-color: var(--color-muted);
 }
 
 input:focus {
-  outline: 2px solid var(--color-black);
-}
-
-input::selection {
-  background-color: var(--color-orange);
-  color: var(--color-white);
+  outline: none;
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 3px rgba(251, 86, 5, 0.18);
 }
 </style>

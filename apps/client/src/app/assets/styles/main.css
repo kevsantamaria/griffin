@@ -1,25 +1,134 @@
 /*@import "tailwindcss";*/
 
 :root {
+  /* palette */
   --color-orange: #fb5605;
   --color-white: #fcfbf9;
   --color-black: #0d1b15;
 
-  --border-radius: 0.24em;
+  /* surfaces derived from the palette */
+  --color-surface: #14231c;
+  --color-border: #26362d;
+  --color-muted: #93a79d;
+  --color-danger: #ff6b6b;
+
+  /* shape */
+  --border-radius: 0.5rem;
+  --radius-pill: 999px;
+
+  /* spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* typography */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* layout */
+  --max-width: 72rem;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
 }
 
 body {
   background-color: var(--color-black);
   color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: 1rem;
 }
 
-body::selection {
+::selection {
   background-color: var(--color-orange);
   color: var(--color-white);
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-white);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
 h1 {
-  margin-bottom: 1em;
-  font-size: 1.8em;
-  color: var(--color-black);
+  margin-bottom: var(--space-4);
+  font-size: 1.75rem;
+}
+
+h2 {
+  margin-bottom: var(--space-3);
+  font-size: 1.25rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+/* Generic form elements, so the new/detail pages stay consistent. */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+legend {
+  padding: 0 var(--space-2);
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  color: var(--color-white);
+  font: inherit;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-orange);
+}
+
+input[type='checkbox'] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-orange);
 }

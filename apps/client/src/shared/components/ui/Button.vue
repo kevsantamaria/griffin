@@ -12,36 +12,37 @@ const { variant = 'primary' } = defineProps<{
 
 <style lang="css" scoped>
 button {
-  display: inline-block;
-  font-weight: 700;
-  font-size: 0.9em;
+  padding: 0.65rem 1.25rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid transparent;
   border-radius: var(--border-radius);
-  padding: 0.5em 1em;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  transition: opacity 0.2s ease;
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 button.primary {
-  background-color: var(--color-orange);
   color: var(--color-white);
+  background-color: var(--color-orange);
 }
 
 button.secondary {
-  background-color: var(--color-white);
+  color: var(--color-white);
+  background-color: transparent;
+  border-color: var(--color-border);
+}
+
+button.secondary:hover {
   color: var(--color-orange);
-}
-
-button:hover {
-  opacity: 0.95;
-}
-
-button:focus {
-  outline: 2px solid var(--color-black);
+  border-color: var(--color-orange);
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 </style>
