@@ -5,6 +5,6 @@ export class Technology {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50, unique: true, collation: 'case_insensitive' })
   name: string
 }

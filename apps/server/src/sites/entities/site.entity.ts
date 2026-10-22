@@ -16,7 +16,7 @@ export class Site {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @Column({ type: 'varchar', length: 100, unique: true, collation: 'case_insensitive' })
   name: string
 
   @Column({ type: 'varchar', length: 255, nullable: true })

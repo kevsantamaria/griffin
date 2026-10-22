@@ -17,7 +17,7 @@ export class Template {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, unique: true, collation: 'case_insensitive' })
   name: string
 
   @Column({ type: 'jsonb' })

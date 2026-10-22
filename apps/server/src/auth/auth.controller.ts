@@ -33,7 +33,7 @@ export class AuthController {
       req.session.destroy((err) => (err ? reject(err) : resolve()))
     })
 
-    res.clearCookie('credentials-manager.sid', {
+    res.clearCookie('griffin.sid', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
