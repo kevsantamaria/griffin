@@ -1,4 +1,4 @@
-import type { CredentialGroup, TemplateGroup } from './schemas/credential.schema'
+import type { CredentialGroup, TemplateGroup } from './schemas/credential.schema.js'
 
 export type SingleSiteRes = {
   id: number

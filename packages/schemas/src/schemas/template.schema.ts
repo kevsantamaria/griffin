@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { templateGroupSchema } from './credential.schema'
+import { templateGroupSchema } from './credential.schema.js'
 
 export const createTemplateSchema = z.object({
   name: z.string().nonempty('Name is required').min(3, 'Name must be at least 3 characters long'),

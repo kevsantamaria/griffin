@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { credentialGroupSchema } from './credential.schema'
+import { credentialGroupSchema } from './credential.schema.js'
 
 export const createSiteSchema = z.object({
   name: z.string().nonempty('Name is required').min(3, 'Name must be at least 3 characters long'),
