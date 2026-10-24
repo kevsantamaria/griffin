@@ -1,12 +1,12 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 import { NotFoundError } from 'rxjs'
 
-import { CreateTechnologyDto } from './dto/create-technology.dto'
-import { UpdateTechnologyDto } from './dto/update-technology.dto'
-import { Technology } from './entities/technology.entity'
-import { FindTechnologyByNameRepository } from './repositories/find-by-name.repository'
-import { FindExistingTechnologyRepository } from './repositories/find-existing.repository'
-import { SaveTechnologyRepository } from './repositories/save.repository'
+import { CreateTechnologyDto } from './dto/create-technology.dto.js'
+import { UpdateTechnologyDto } from './dto/update-technology.dto.js'
+import { Technology } from './entities/technology.entity.js'
+import { FindTechnologyByNameRepository } from './repositories/find-by-name.repository.js'
+import { FindExistingTechnologyRepository } from './repositories/find-existing.repository.js'
+import { SaveTechnologyRepository } from './repositories/save.repository.js'
 
 @Injectable()
 export class TechnologiesService {

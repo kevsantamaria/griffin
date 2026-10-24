@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard'
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 
-import { CreateTechnologyDto } from './dto/create-technology.dto'
-import { UpdateTechnologyDto } from './dto/update-technology.dto'
-import { TechnologiesService } from './technologies.service'
+import { CreateTechnologyDto } from './dto/create-technology.dto.js'
+import { UpdateTechnologyDto } from './dto/update-technology.dto.js'
+import { TechnologiesService } from './technologies.service.js'
 
 @UseGuards(AuthenticatedGuard)
 @Controller('technologies')

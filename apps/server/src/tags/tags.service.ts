@@ -1,12 +1,12 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 
-import { CreateTagDto } from './dto/create-tag.dto'
-import { Tag } from './entities/tag.entity'
-import { DeleteTagRepository } from './repositories/delete.repository'
-import { FindAllTagsRepository } from './repositories/find-all.repository'
-import { FindTagByNameRepository } from './repositories/find-by-name.repository'
-import { FindExistingTagRepository } from './repositories/find-existing.repository'
-import { SaveTagRepository } from './repositories/save.repository'
+import { CreateTagDto } from './dto/create-tag.dto.js'
+import { Tag } from './entities/tag.entity.js'
+import { DeleteTagRepository } from './repositories/delete.repository.js'
+import { FindAllTagsRepository } from './repositories/find-all.repository.js'
+import { FindTagByNameRepository } from './repositories/find-by-name.repository.js'
+import { FindExistingTagRepository } from './repositories/find-existing.repository.js'
+import { SaveTagRepository } from './repositories/save.repository.js'
 
 @Injectable()
 export class TagsService {

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { UpdateTechnologyDto } from '../dto/update-technology.dto'
-import { Technology } from '../entities/technology.entity'
+import { UpdateTechnologyDto } from '../dto/update-technology.dto.js'
+import { Technology } from '../entities/technology.entity.js'
 
 @Injectable()
 export class PreloadTechnologyRepository {

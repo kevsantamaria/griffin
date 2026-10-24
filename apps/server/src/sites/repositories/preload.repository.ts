@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { UpdateSiteDto } from '../dto/update-site.dto'
-import { Site } from '../entities/site.entity'
+import { UpdateSiteDto } from '../dto/update-site.dto.js'
+import { Site } from '../entities/site.entity.js'
 
 @Injectable()
 export class PreloadSiteRepository {

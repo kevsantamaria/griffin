@@ -6,7 +6,7 @@ import session from 'express-session'
 import passport from 'passport'
 import pg from 'pg'
 
-import { AppModule } from './app.module'
+import { AppModule } from './app.module.js'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { Site } from '../entities/site.entity'
+import { Site } from '../entities/site.entity.js'
 
 @Injectable()
 export class FindSiteByIdRepository {

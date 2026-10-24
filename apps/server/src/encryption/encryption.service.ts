@@ -4,7 +4,7 @@ import { CredentialGroup } from '@griffin/schemas'
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
-import { CredentialGroupDto } from './dto/credential.dto'
+import { CredentialGroupDto } from './dto/credential.dto.js'
 
 @Injectable()
 export class EncryptionService {

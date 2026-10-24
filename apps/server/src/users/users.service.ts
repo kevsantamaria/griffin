@@ -6,16 +6,16 @@ import {
 } from '@nestjs/common'
 import { hash } from 'bcryptjs'
 
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
-import { User } from './entities/user.entity'
-import { DeleteUserRepository } from './repositories/delete.repository'
-import { FindAllUsersRepository } from './repositories/find-all.repository'
-import { FindUserByIdRepository } from './repositories/find-by-id.repository'
-import { FindUserByUsernameRepository } from './repositories/find-by-username.repository'
-import { FindExistingUserRepository } from './repositories/find-existing-user.repository'
-import { PreloadUserRepository } from './repositories/preload.repository'
-import { SaveUserRepository } from './repositories/save.repository'
+import { CreateUserDto } from './dto/create-user.dto.js'
+import { UpdateUserDto } from './dto/update-user.dto.js'
+import { User } from './entities/user.entity.js'
+import { DeleteUserRepository } from './repositories/delete.repository.js'
+import { FindAllUsersRepository } from './repositories/find-all.repository.js'
+import { FindUserByIdRepository } from './repositories/find-by-id.repository.js'
+import { FindUserByUsernameRepository } from './repositories/find-by-username.repository.js'
+import { FindExistingUserRepository } from './repositories/find-existing-user.repository.js'
+import { PreloadUserRepository } from './repositories/preload.repository.js'
+import { SaveUserRepository } from './repositories/save.repository.js'
 
 type UserRes = Omit<User, 'password'>
 

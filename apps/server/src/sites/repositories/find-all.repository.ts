@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { PaginationDto } from '../dto/pagination.dto'
-import { Site } from '../entities/site.entity'
+import { PaginationDto } from '../dto/pagination.dto.js'
+import { Site } from '../entities/site.entity.js'
 
 @Injectable()
 export class FindAllSitesRepository {

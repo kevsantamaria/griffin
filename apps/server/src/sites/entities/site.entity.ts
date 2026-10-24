@@ -1,4 +1,4 @@
-import { Technology } from 'src/technologies/entities/technology.entity'
+import { Technology } from '../../technologies/entities/technology.entity.js'
 import {
   Column,
   CreateDateColumn,
@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { SiteTag } from './site-tag.entity'
+import { SiteTag } from './site-tag.entity.js'
 
 @Entity('sites')
 export class Site {

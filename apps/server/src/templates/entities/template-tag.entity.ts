@@ -1,7 +1,7 @@
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Entity, ManyToOne, PrimaryColumn, type Relation } from 'typeorm'
 
-import { Tag } from '../../tags/entities/tag.entity'
-import { Template } from './template.entity'
+import { Tag } from '../../tags/entities/tag.entity.js'
+import { Template } from './template.entity.js'
 
 @Entity('template_tags')
 export class TemplateTag {
@@ -12,8 +12,8 @@ export class TemplateTag {
   tagId: number
 
   @ManyToOne(() => Template, { onDelete: 'CASCADE' })
-  template: Template
+  template: Relation<Template>
 
   @ManyToOne(() => Tag, { onDelete: 'CASCADE' })
-  tag: Tag
+  tag: Relation<Tag>
 }

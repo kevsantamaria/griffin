@@ -2,9 +2,9 @@ import { Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/co
 import { Throttle } from '@nestjs/throttler'
 import type { Request, Response } from 'express'
 
-import { AuthService } from './auth.service'
-import { AuthenticatedGuard } from './guards/authenticated.guard'
-import { LocalAuthGuard } from './guards/local-auth.guard'
+import { AuthService } from './auth.service.js'
+import { AuthenticatedGuard } from './guards/authenticated.guard.js'
+import { LocalAuthGuard } from './guards/local-auth.guard.js'
 
 @Controller('auth')
 export class AuthController {

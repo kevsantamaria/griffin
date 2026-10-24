@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
-import { Tag } from './entities/tag.entity'
-import { DeleteTagRepository } from './repositories/delete.repository'
-import { FindAllTagsRepository } from './repositories/find-all.repository'
-import { FindTagByNameRepository } from './repositories/find-by-name.repository'
-import { FindExistingTagRepository } from './repositories/find-existing.repository'
-import { SaveTagRepository } from './repositories/save.repository'
-import { TagsController } from './tags.controller'
-import { TagsService } from './tags.service'
+import { Tag } from './entities/tag.entity.js'
+import { DeleteTagRepository } from './repositories/delete.repository.js'
+import { FindAllTagsRepository } from './repositories/find-all.repository.js'
+import { FindTagByNameRepository } from './repositories/find-by-name.repository.js'
+import { FindExistingTagRepository } from './repositories/find-existing.repository.js'
+import { SaveTagRepository } from './repositories/save.repository.js'
+import { TagsController } from './tags.controller.js'
+import { TagsService } from './tags.service.js'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tag])],

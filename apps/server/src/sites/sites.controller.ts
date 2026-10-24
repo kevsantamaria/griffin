@@ -11,12 +11,12 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard'
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 
-import { CreateSiteDto } from './dto/create-site.dto'
-import { PaginationDto } from './dto/pagination.dto'
-import { UpdateSiteDto } from './dto/update-site.dto'
-import { SitesService } from './sites.service'
+import { CreateSiteDto } from './dto/create-site.dto.js'
+import { PaginationDto } from './dto/pagination.dto.js'
+import { UpdateSiteDto } from './dto/update-site.dto.js'
+import { SitesService } from './sites.service.js'
 
 @UseGuards(AuthenticatedGuard)
 @Controller('sites')

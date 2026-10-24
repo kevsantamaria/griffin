@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
 
-import { databaseOptions } from './database.options'
+import { databaseOptions } from './database.options.js'
 
 process.loadEnvFile('.env')
 

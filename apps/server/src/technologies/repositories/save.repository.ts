@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { Technology } from '../entities/technology.entity'
+import { Technology } from '../entities/technology.entity.js'
 
 @Injectable()
 export class SaveTechnologyRepository {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { SiteTag } from '../entities/site-tag.entity'
+import { SiteTag } from '../entities/site-tag.entity.js'
 
 @Injectable()
 export class SaveSiteTagRepository {

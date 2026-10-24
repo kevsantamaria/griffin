@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard'
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 
-import { CreateTagDto } from './dto/create-tag.dto'
-import { TagsService } from './tags.service'
+import { CreateTagDto } from './dto/create-tag.dto.js'
+import { TagsService } from './tags.service.js'
 
 @UseGuards(AuthenticatedGuard)
 @Controller('tags')

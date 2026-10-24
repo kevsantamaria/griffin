@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import { AuthenticatedGuard } from 'src/auth/guards/authenticated.guard'
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 
-import { CreateTemplateDto } from './dto/create-template.dto'
-import { UpdateTemplateDto } from './dto/update-template.dto'
-import { TemplatesService } from './templates.service'
+import { CreateTemplateDto } from './dto/create-template.dto.js'
+import { UpdateTemplateDto } from './dto/update-template.dto.js'
+import { TemplatesService } from './templates.service.js'
 
 @UseGuards(AuthenticatedGuard)
 @Controller('templates')
