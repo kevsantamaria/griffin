@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PassportSerializer } from '@nestjs/passport'
+
 import { User } from '../users/entities/user.entity.js'
 import { UsersService } from '../users/users.service.js'
 

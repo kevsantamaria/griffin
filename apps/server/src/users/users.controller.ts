@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 import { CreateUserDto } from './dto/create-user.dto.js'
 import { UpdateUserDto } from './dto/update-user.dto.js'
 import { UsersService } from './users.service.js'

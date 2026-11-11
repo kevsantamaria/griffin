@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+
 import { EncryptionModule } from '../encryption/encryption.module.js'
 import { TagsModule } from '../tags/tags.module.js'
 import { TechnologiesModule } from '../technologies/technologies.module.js'
-
 import { SiteTag } from './entities/site-tag.entity.js'
 import { Site } from './entities/site.entity.js'
 import { DeleteSiteTagRepository } from './repositories/delete-site-tag.repository.js'

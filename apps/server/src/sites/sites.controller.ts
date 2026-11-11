@@ -11,8 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
-import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard.js'
 import { CreateSiteDto } from './dto/create-site.dto.js'
 import { PaginationDto } from './dto/pagination.dto.js'
 import { UpdateSiteDto } from './dto/update-site.dto.js'

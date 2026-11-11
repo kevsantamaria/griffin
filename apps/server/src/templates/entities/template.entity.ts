@@ -1,5 +1,4 @@
 import { TemplateGroup } from '@griffin/schemas'
-import { Technology } from '../../technologies/entities/technology.entity.js'
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
 } from 'typeorm'
 import { OneToMany } from 'typeorm/browser'
 
+import { Technology } from '../../technologies/entities/technology.entity.js'
 import { TemplateTag } from './template-tag.entity.js'
 
 @Entity('templates')

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+
 import { TagsModule } from '../tags/tags.module.js'
 import { TechnologiesModule } from '../technologies/technologies.module.js'
-
 import { TemplateTag } from './entities/template-tag.entity.js'
 import { Template } from './entities/template.entity.js'
 import { DeleteTemplateTagRepository } from './repositories/delete-template-tag.repository.js'

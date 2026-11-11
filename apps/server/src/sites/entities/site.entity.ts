@@ -1,4 +1,3 @@
-import { Technology } from '../../technologies/entities/technology.entity.js'
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
+import { Technology } from '../../technologies/entities/technology.entity.js'
 import { SiteTag } from './site-tag.entity.js'
 
 @Entity('sites')

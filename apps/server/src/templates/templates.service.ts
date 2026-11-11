@@ -1,11 +1,11 @@
 import { AllTemplatesRes, SingleTemplateRes } from '@griffin/schemas'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import { DeleteResult } from 'typeorm'
+
 import { slugify } from '../common/utils/slug.js'
 import { Tag } from '../tags/entities/tag.entity.js'
 import { TagsService } from '../tags/tags.service.js'
 import { TechnologiesService } from '../technologies/technologies.service.js'
-import { DeleteResult } from 'typeorm'
-
 import { CreateTemplateDto } from './dto/create-template.dto.js'
 import { UpdateTemplateDto } from './dto/update-template.dto.js'
 import { TemplateTag } from './entities/template-tag.entity.js'

@@ -1,8 +1,8 @@
 {
   "name": "@griffin/schemas",
-  "description": "",
   "version": "0.9.0",
   "private": true,
+  "description": "",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
