@@ -14,7 +14,12 @@
       },
     },
     "Vue.js": {
-      "language_servers": ["vue-language-server", "oxlint", "vtsls"],
+      "language_servers": [
+        "vue-language-server",
+        "oxlint",
+        "!vtsls",
+        "!typescript-language-server",
+      ],
       "format_on_save": "on",
       "code_actions_on_format": {
         "source.organizeImports": true,
@@ -35,7 +40,6 @@
           "run": "onType",
           "fixKind": "safe_fix",
           "typeAware": true,
-          "tsconfig": "tsconfig.json",
         },
       },
     },
