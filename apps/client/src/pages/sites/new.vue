@@ -1,140 +1,45 @@
 <script setup lang="ts">
-import type { CreateSiteDto } from '@griffin/schemas'
-import { reactive } from 'vue'
+import CreateSiteForm from '@/features/sites/components/CreateSiteForm.vue'
+import { useSites } from '@/features/sites/composables/use-sites'
+import type { SiteFormState } from '@/features/sites/types'
+import BackLink from '@/shared/components/ui/BackLink.vue'
 
-import Button from '@/shared/components/ui/Button.vue'
-import Input from '@/shared/components/ui/Input.vue'
+const { create } = useSites()
 
-// CreateSiteDto declares url/notes as `string | null | undefined` (z.url().nullish())
-// and tagNames as optional, but Input.vue exposes `defineModel<string>()` and the
-// form needs a defined array. Those keys are widened here and converted on submit.
-type SiteFormState = Omit<CreateSiteDto, 'url' | 'notes' | 'tagNames'> & {
-  url: string
-  notes: string
-  tagNames: string[]
-}
-
-const fieldTypes = ['text', 'password', 'email', 'url'] as const
-
-const form = reactive<SiteFormState>({
-  name: '',
-  url: '',
-  isInternal: true,
-  notes: '',
-  technologyName: '',
-  credentials: [{ header: '', fields: [{ label: '', type: 'text', content: '' }] }],
-  tagNames: [''],
-})
-
-function addTag() {
-  form.tagNames.push('')
-}
-
-function removeTag(index: number) {
-  form.tagNames.splice(index, 1)
-}
-
-function addCredentialGroup() {
-  form.credentials.push({ header: '', fields: [{ label: '', type: 'text', content: '' }] })
-}
-
-function removeCredentialGroup(index: number) {
-  form.credentials.splice(index, 1)
-}
-
-function addCredentialField(groupIndex: number) {
-  form.credentials[groupIndex].fields.push({ label: '', type: 'text', content: '' })
-}
-
-function removeCredentialField(groupIndex: number, fieldIndex: number) {
-  form.credentials[groupIndex].fields.splice(fieldIndex, 1)
-}
-
-function submit() {
-  // TODO: map SiteFormState back to CreateSiteDto ('url'/'notes' -> null) and call useSites().create
+async function submit(site: SiteFormState) {
+  await create.mutateAsync(site)
 }
 </script>
 
 <template>
-  <h1>Create a new site</h1>
+  <div class="page">
+    <BackLink to="/" label="Back to sites" />
 
-  <form @submit.prevent="submit">
-    <label>
-      Name
-      <Input v-model="form.name" />
-    </label>
+    <header class="page-header">
+      <h1>Add a new site</h1>
+      <p>Add the site details and the credentials it needs.</p>
+    </header>
 
-    <label>
-      URL
-      <Input v-model="form.url" type="url" />
-    </label>
-
-    <label>
-      Internal
-      <input v-model="form.isInternal" type="checkbox" />
-    </label>
-
-    <label>
-      Notes
-      <textarea v-model="form.notes"></textarea>
-    </label>
-
-    <label>
-      Technology
-      <Input v-model="form.technologyName" />
-    </label>
-
-    <fieldset>
-      <legend>Tags</legend>
-      <div v-for="(tag, tagIndex) in form.tagNames" :key="tagIndex">
-        <Input v-model="form.tagNames[tagIndex]" />
-        <button type="button" @click="removeTag(tagIndex)">Remove tag</button>
-      </div>
-      <button type="button" @click="addTag">Add tag</button>
-    </fieldset>
-
-    <fieldset>
-      <legend>Credentials</legend>
-      <fieldset v-for="(group, groupIndex) in form.credentials" :key="groupIndex">
-        <legend>{{ group.header }}</legend>
-
-        <label>
-          Header
-          <Input v-model="form.credentials[groupIndex].header" />
-        </label>
-
-        <div v-for="(field, fieldIndex) in group.fields" :key="fieldIndex">
-          <label>
-            Label
-            <Input v-model="form.credentials[groupIndex].fields[fieldIndex].label" />
-          </label>
-
-          <label>
-            Type
-            <select v-model="form.credentials[groupIndex].fields[fieldIndex].type">
-              <option v-for="type in fieldTypes" :key="type" :value="type">{{ type }}</option>
-            </select>
-          </label>
-
-          <label>
-            Content
-            <Input v-model="form.credentials[groupIndex].fields[fieldIndex].content" />
-          </label>
-
-          <button type="button" @click="removeCredentialField(groupIndex, fieldIndex)">
-            Remove field
-          </button>
-        </div>
-
-        <button type="button" @click="addCredentialField(groupIndex)">Add field</button>
-        <button type="button" @click="removeCredentialGroup(groupIndex)">Remove group</button>
-      </fieldset>
-
-      <button type="button" @click="addCredentialGroup">Add group</button>
-    </fieldset>
-
-    <Button type="submit">Create site</Button>
-  </form>
+    <CreateSiteForm @submit="submit" v-bind="{ isError: create.isError, error: create.error }" />
+  </div>
 </template>
 
-<style scoped></style>
+<style lang="css" scoped>
+.page {
+  width: min(100%, 48rem);
+  margin-inline: auto;
+}
+
+.page-header {
+  margin-bottom: var(--space-6);
+}
+
+.page-header h1 {
+  margin-bottom: var(--space-2);
+}
+
+.page-header p {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+</style>

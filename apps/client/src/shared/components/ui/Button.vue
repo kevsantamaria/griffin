@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { variant = 'primary' } = defineProps<{
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'danger'
 }>()
 </script>
 
@@ -27,7 +27,7 @@ button {
 
 button.primary {
   color: var(--color-white);
-  background-color: var(--color-orange);
+  background-color: var(--color-primary);
 }
 
 button.secondary {
@@ -37,8 +37,17 @@ button.secondary {
 }
 
 button.secondary:hover {
-  color: var(--color-orange);
-  border-color: var(--color-orange);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+button.danger {
+  color: var(--color-white);
+  background-color: var(--color-danger);
+}
+
+button.danger:hover:not(:disabled) {
+  filter: brightness(1.08);
 }
 
 button:disabled {

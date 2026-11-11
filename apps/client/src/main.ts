@@ -9,6 +9,7 @@ import App from './App.vue'
 
 import '@/app/assets/styles/reset.css'
 import '@/app/assets/styles/main.css'
+import '@/app/assets/styles/forms.css'
 
 const app = createApp(App)
 

@@ -1,37 +1,69 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useForm } from '@tanstack/vue-form'
 
 import Button from '@/shared/components/ui/Button.vue'
-import Input from '@/shared/components/ui/Input.vue'
 
 import { useAuth } from '../composables/use-auth'
+import type { LoginParams } from '../types'
 
 const { login } = useAuth()
 const { mutateAsync, isPending, isError, error } = login
 
-const username = ref('')
-const password = ref('')
-
-const submit = () => {
-  mutateAsync({ username: username.value, password: password.value })
+const loginDefault: LoginParams = {
+  username: '',
+  password: '',
 }
+
+const form = useForm({
+  defaultValues: loginDefault,
+  onSubmit: async ({ value }) => {
+    mutateAsync(value)
+  },
+})
 </script>
 
 <template>
-  <form @submit.prevent="submit">
-    <Input v-model="username" type="text" placeholder="Enter username" />
-    <Input v-model="password" type="password" placeholder="******" />
+  <form
+    @submit="
+      (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }
+    "
+  >
+    <form.Field name="username">
+      <template v-slot="{ field }">
+        <input
+          :id="field.name"
+          :name="field.name"
+          :value="field.state.value"
+          placeholder="Username"
+          class="input-element"
+          @input="(e) => field.handleChange((e.target as HTMLInputElement).value)"
+        />
+      </template>
+    </form.Field>
+
+    <form.Field name="password">
+      <template v-slot="{ field }">
+        <input
+          :id="field.name"
+          :name="field.name"
+          :value="field.state.value"
+          type="password"
+          placeholder="******"
+          class="input-element"
+          @input="(e) => field.handleChange((e.target as HTMLInputElement).value)"
+        />
+      </template>
+    </form.Field>
+
     <Button :disabled="isPending">
       {{ isPending ? '⏳ Login' : 'Login' }}
     </Button>
-    <p v-if="isError && error" class="error">{{ error.message }}</p>
+    <p v-if="isError && error" class="field-error">{{ error.message }}</p>
   </form>
 </template>
 
-<style lang="css" scoped>
-.error {
-  color: var(--color-danger);
-  font-size: 0.9em;
-  text-align: center;
-}
-</style>
+<style lang="css" scoped></style>

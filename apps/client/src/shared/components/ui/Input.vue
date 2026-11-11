@@ -30,7 +30,7 @@ input:hover {
 
 input:focus {
   outline: none;
-  border-color: var(--color-orange);
-  box-shadow: 0 0 0 3px rgba(251, 86, 5, 0.18);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(249, 87, 6, 0.18);
 }
 </style>
