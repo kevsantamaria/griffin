@@ -69,7 +69,7 @@ export function useSites(pagination?: PaginationDto, options?: { id?: number; sl
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] })
 
-      router.push('/sites')
+      router.push('/')
     },
   })
 

@@ -20,6 +20,6 @@ export const authGuard = async (
     return { name: '/login' }
   }
   if (user && isLogin) {
-    return { name: '/sites/' }
+    return { name: '/' }
   }
 }

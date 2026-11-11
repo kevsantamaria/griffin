@@ -33,7 +33,7 @@ article {
 }
 
 article:hover {
-  border-color: var(--color-orange);
+  border-color: var(--color-primary);
 }
 
 h3 {
@@ -57,14 +57,14 @@ li {
   padding: 0.125rem 0.5rem;
   color: var(--color-muted);
   font-size: 0.75rem;
-  background-color: var(--color-black);
+  background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
 }
 
 a {
   margin-top: auto;
-  color: var(--color-orange);
+  color: var(--color-primary);
   font-size: 0.8125rem;
 }
 </style>

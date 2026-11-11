@@ -2,18 +2,23 @@
 
 :root {
   /* palette */
-  --color-orange: #fb5605;
-  --color-white: #fcfbf9;
-  --color-black: #0d1b15;
+  --color-primary: #f95706;
+  --color-primary-hover: #fa7938;
+  --color-background: #241b19;
+  --color-foreground: #f7f3ee;
 
   /* surfaces derived from the palette */
-  --color-surface: #14231c;
-  --color-border: #26362d;
-  --color-muted: #93a79d;
-  --color-danger: #ff6b6b;
+  --color-surface: #39302d;
+  --color-border: #685b58;
+  --color-white: #fdfcfc;
+  --color-muted: #978682;
+  --color-danger: #fa514a;
+  --color-warning: #ffc746;
+  --color-success: #6ce06c;
+  --color-info: #698ddb;
 
   /* shape */
-  --border-radius: 0.5rem;
+  --border-radius: 0.3rem;
   --radius-pill: 999px;
 
   /* spacing */
@@ -38,19 +43,19 @@
 }
 
 body {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-sans);
   font-size: 1rem;
 }
 
 ::selection {
-  background-color: var(--color-orange);
+  background-color: var(--color-primary);
   color: var(--color-white);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -58,7 +63,7 @@ h1,
 h2,
 h3,
 h4 {
-  color: var(--color-white);
+  color: var(--color-foreground);
   font-weight: 600;
   line-height: 1.2;
 }
@@ -124,11 +129,46 @@ textarea {
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--color-orange);
+  border-color: var(--color-primary);
 }
 
 input[type='checkbox'] {
   width: 1rem;
   height: 1rem;
-  accent-color: var(--color-orange);
+  accent-color: var(--color-primary);
+}
+
+.field-error {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.input-element {
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  color: var(--color-white);
+  font: inherit;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input-element::placeholder {
+  color: var(--color-muted);
+}
+
+.input-element:hover {
+  border-color: var(--color-muted);
+}
+
+.input-element:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(249, 87, 6, 0.18);
 }

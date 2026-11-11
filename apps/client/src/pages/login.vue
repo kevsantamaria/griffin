@@ -14,7 +14,8 @@ import LoginForm from '@/features/auth/components/LoginForm.vue'
 <style lang="css" scoped>
 section {
   display: grid;
-  min-height: 60vh;
+  min-height: 100dvh;
+  padding: var(--space-6);
   place-items: center;
 }
 

@@ -15,7 +15,7 @@ export function useAuth() {
     },
     onSuccess: (user: UserLogged) => {
       queryClient.setQueryData(meQueryOptions.queryKey, user)
-      router.push('/sites')
+      router.push('/')
     },
   })
 

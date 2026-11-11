@@ -7,6 +7,8 @@ import type {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { useRouter } from 'vue-router'
 
+import type { ApiError } from '@/app/config/base-api'
+
 import templates from '../api'
 import type { MutatedTemplate } from '../types'
 
@@ -39,7 +41,7 @@ export function useTemplates(options?: { id?: number; slug?: string }) {
     enabled: !!slug,
   })
 
-  const create = useMutation({
+  const create = useMutation<MutatedTemplate, ApiError, CreateTemplateDto>({
     mutationFn: async (template: CreateTemplateDto): Promise<MutatedTemplate> => {
       return await templates.create(template)
     },
