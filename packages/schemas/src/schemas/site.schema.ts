@@ -5,7 +5,7 @@ import { credentialGroupSchema } from './credential.schema.js'
 export const createSiteSchema = z.object({
   name: z.string().nonempty('Name is required').min(3, 'Name must be at least 3 characters long'),
   url: z.url().nullish(),
-  isInternal: z.boolean().default(true),
+  isInternal: z.boolean(),
   notes: z.string().max(400, 'Notes must be at most 400 characters long').nullish(),
   technologyName: z
     .string()
